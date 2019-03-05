@@ -28,6 +28,11 @@ I want the newest posts to appear first
 ```
 ```
 As a signed in user
+So I can interact with my friends
+I want to be able to comment on their posts
+```
+```
+As a signed in user
 So I can show my friends some appreciation
 I want to be able to like their posts
 ```
