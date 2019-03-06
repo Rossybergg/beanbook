@@ -2,6 +2,8 @@ package com.steamybeans.beanbook;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +14,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private Button BTNsignUp;
     private TextView TVmessage;
     private DatabaseReference database;
+    private VideoView VIDloginBG;
 
     final Context context = this;
 
@@ -45,6 +49,27 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         init();
     }
+
+    protected void onResume() {
+        super.onResume();
+
+        VideoView video = findViewById(R.id.VIDloginBG);
+
+        video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.setLooping(true);
+            }
+        });
+
+        Uri videoPath = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.loginbg);
+        video.setVideoURI(videoPath);
+        video.start();
+    }
+
+
+
+
 
     private void init() {
         ETemail = (EditText) findViewById(R.id.ETemail);
