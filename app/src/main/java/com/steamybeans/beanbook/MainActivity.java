@@ -58,11 +58,14 @@ public class MainActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         String actualPassword = dataSnapshot.child("password").getValue().toString();
 
-                        if (actualPassword.equals(password)) { TVmessage.setText("Success"); }
+                        if (actualPassword.equals(password)) {
+                            TVmessage.setText("Success");
+                            startActivity(new Intent(MainActivity.this, PostListActivity.class));
+                        }
                         else { TVmessage.setText("Failed"); }
                     }
-
                     @Override
+
                     public void onCancelled(@NonNull DatabaseError databaseError) {}
                 });
             }
