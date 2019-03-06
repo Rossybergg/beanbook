@@ -6,9 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Signup extends AppCompatActivity {
 
@@ -45,10 +49,31 @@ public class Signup extends AppCompatActivity {
                 user.setFullName(fullName);
                 user.setPassword(password);
 
-                database.child(email).setValue(user);
+                if (validEmail(email)) {
+                    String encodedEmail = encodeString(email);
+                    database.child(encodedEmail).setValue(user);
 
-                startActivity(new Intent(Signup.this, MainActivity.class));
+                    startActivity(new Intent(Signup.this, MainActivity.class));
+                } else {
+                    Toast.makeText(Signup.this, "Invalid email address", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
+
+    public boolean validEmail(String email) {
+        Pattern pattern = Pattern.compile(".+@.+\\.[a-z]+");
+        Matcher matcher = pattern.matcher(email);
+        boolean matchFound = matcher.matches();
+        boolean result = false;
+        if (matchFound) {
+            result = true;
+        }
+        return result;
+    }
+
+    public static String encodeString(String string) {
+        return string.replace(".", ",");
+    }
+
 }

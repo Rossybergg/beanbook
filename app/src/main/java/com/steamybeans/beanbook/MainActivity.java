@@ -52,7 +52,9 @@ public class MainActivity extends AppCompatActivity {
                 ETemail.onEditorAction(EditorInfo.IME_ACTION_DONE);
                 ETpassword.onEditorAction(EditorInfo.IME_ACTION_DONE);
 
-                database = FirebaseDatabase.getInstance().getReference().child("Users").child(email);
+                String encodedEmail = encodeString(email);
+
+                database = FirebaseDatabase.getInstance().getReference().child("Users").child(encodedEmail);
                 database.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -74,5 +76,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, Signup.class));
             }
         }));
+    }
+
+    public static String encodeString(String string) {
+        return string.replace(".", ",");
     }
 }
