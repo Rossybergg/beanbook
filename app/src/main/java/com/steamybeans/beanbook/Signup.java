@@ -28,7 +28,7 @@ public class Signup extends AppCompatActivity {
     }
 
     private void init() {
-        ETfullName = (EditText) findViewById(R.id.ETemail);
+        ETfullName = (EditText) findViewById(R.id.ETfullName);
         ETemail = (EditText) findViewById(R.id.ETemail);
         ETpassword = (EditText) findViewById(R.id.ETpassword);
         BTNsignUp = (Button) findViewById(R.id.BTNsignUp);
