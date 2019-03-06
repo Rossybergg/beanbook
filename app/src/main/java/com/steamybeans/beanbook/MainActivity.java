@@ -28,18 +28,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
-        ETuserName = (EditText)findViewById(R.id.ETuserName);
-        ETpassword = (EditText)findViewById(R.id.ETpassword);
-        BTNlogIn = (Button)findViewById(R.id.BTNlogIn);
-        BTNsignUp = (Button)findViewById(R.id.BTNsignUp);
-        TVmessage = (TextView)findViewById(R.id.TVmessage);
+        ETuserName = (EditText) findViewById(R.id.ETuserName);
+        ETpassword = (EditText) findViewById(R.id.ETpassword);
+        BTNlogIn = (Button) findViewById(R.id.BTNlogIn);
+        BTNsignUp = (Button) findViewById(R.id.BTNsignUp);
+        TVmessage = (TextView) findViewById(R.id.TVmessage);
 
         BTNlogIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String username = ETuserName.getText().toString();
                 String password = ETpassword.getText().toString();
-                if ((username.equals("Jedd")) && (password.equals("password")))  {
+                if ((username.equals("Jedd")) && (password.equals("password"))) {
                     TVmessage.setText("Success");
                 } else {
                     TVmessage.setText("Failed");
@@ -48,6 +48,14 @@ public class MainActivity extends AppCompatActivity {
                 ETpassword.onEditorAction(EditorInfo.IME_ACTION_DONE);
             }
         });
+
+        BTNsignUp.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, Signup.class));
+            }
+        }));
+
 
 //        BTNsignUp.setOnClickListener(new View.OnClickListener() {
 //
