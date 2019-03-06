@@ -7,12 +7,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class Signup extends AppCompatActivity {
 
-    private EditText ETuserName;
+    private EditText ETfullName;
     private EditText ETemail;
     private EditText ETpassword;
     private Button BTNsignUp;
+    private DatabaseReference database;
+    private User user;
 
 
     @Override
@@ -23,17 +28,25 @@ public class Signup extends AppCompatActivity {
     }
 
     private void init() {
-        ETuserName = (EditText) findViewById(R.id.ETuserName);
+        ETfullName = (EditText) findViewById(R.id.ETemail);
         ETemail = (EditText) findViewById(R.id.ETemail);
         ETpassword = (EditText) findViewById(R.id.ETpassword);
         BTNsignUp = (Button) findViewById(R.id.BTNsignUp);
+        user = new User();
+        database = FirebaseDatabase.getInstance().getReference().child("Users");
 
         BTNsignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = ETuserName.getText().toString();
+                String fullName = ETfullName.getText().toString();
                 String email = ETemail.getText().toString();
                 String password = ETpassword.getText().toString();
+
+                user.setFullName(fullName);
+                user.setPassword(password);
+
+                database.child(email).setValue(user);
+
                 startActivity(new Intent(Signup.this, MainActivity.class));
             }
         });
