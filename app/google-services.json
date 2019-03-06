@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "396992821356",
+    "firebase_url": "https://beanbook-2c906.firebaseio.com",
+    "project_id": "beanbook-2c906",
+    "storage_bucket": "beanbook-2c906.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:396992821356:android:988493bf73c14b4e",
+        "android_client_info": {
+          "package_name": "com.steamybeans.beanbook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "396992821356-m0bm7carolsi68n80qdvrgs43q8uidnq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.steamybeans.beanbook",
+            "certificate_hash": "b3178ea43b536f4bf4c8ce602fa39d1d2cb868e3"
+          }
+        },
+        {
+          "client_id": "396992821356-tpulhd38g4id1cmqqod4dka1b32ollem.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkgW-ZC0OCvHNOJhCktQogw9zF47-IJig"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "396992821356-tpulhd38g4id1cmqqod4dka1b32ollem.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
