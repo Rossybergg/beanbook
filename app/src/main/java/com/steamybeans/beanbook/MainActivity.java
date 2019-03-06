@@ -1,5 +1,7 @@
 package com.steamybeans.beanbook;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -13,7 +15,10 @@ public class MainActivity extends AppCompatActivity {
     private EditText ETuserName;
     private EditText ETpassword;
     private Button BTNlogIn;
+    private Button BTNsignUp;
     private TextView TVmessage;
+
+    final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         ETuserName = (EditText)findViewById(R.id.ETuserName);
         ETpassword = (EditText)findViewById(R.id.ETpassword);
         BTNlogIn = (Button)findViewById(R.id.BTNlogIn);
+        BTNsignUp = (Button)findViewById(R.id.BTNsignUp);
         TVmessage = (TextView)findViewById(R.id.TVmessage);
 
         BTNlogIn.setOnClickListener(new View.OnClickListener() {
@@ -42,5 +48,15 @@ public class MainActivity extends AppCompatActivity {
                 ETpassword.onEditorAction(EditorInfo.IME_ACTION_DONE);
             }
         });
+
+//        BTNsignUp.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//
+//                Intent intent = new Intent(context, Signup.class);
+//                startActivity(intent);
+//            }
+//        });
     }
 }
