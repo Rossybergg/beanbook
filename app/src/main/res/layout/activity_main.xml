@@ -6,6 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <VideoView
+        android:id="@+id/VIDloginBG"
+        android:layout_width="4000px"
+        android:layout_height="match_parent"
+        android:foregroundTint="@android:color/background_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/IVvideoFade"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.7"
+        app:srcCompat="@color/common_google_signin_btn_text_dark_focused"
+        tools:layout_editor_absoluteX="141dp"
+        tools:layout_editor_absoluteY="51dp" />
+
     <EditText
         android:id="@+id/ETemail"
         android:layout_width="wrap_content"
@@ -14,14 +34,20 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:backgroundTint="#AAFFFFFF"
         android:ems="10"
         android:hint="Email"
         android:inputType="textEmailAddress"
+        android:textColor="@android:color/background_light"
+        android:textColorHint="#AAFFFFFF"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/ETpassword"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.916" />
+        app:layout_constraintVertical_bias="0.966" />
 
     <EditText
         android:id="@+id/ETpassword"
@@ -29,29 +55,39 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="372dp"
+        android:layout_marginBottom="224dp"
+        android:backgroundTint="#AAFFFFFF"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
+        android:textColor="@android:color/background_light"
+        android:textColorHint="#AAFFFFFF"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/BTNlogIn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:background="@drawable/buttons"
         android:text="Log In"
+        android:textColor="#AAFFFFFF"
+        android:textSize="24sp"
+        android:textStyle="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ETpassword"
-        app:layout_constraintVertical_bias="0.09" />
+        app:layout_constraintVertical_bias="0.532" />
 
     <TextView
         android:id="@+id/TVmessage"
@@ -62,25 +98,46 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@android:color/background_light"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/BTNlogIn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/BTNlogIn" />
+        app:layout_constraintTop_toBottomOf="@+id/ETpassword"
+        app:layout_constraintVertical_bias="0.943" />
 
     <Button
         android:id="@+id/BTNsignUp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:background="@drawable/greenbutton"
         android:text="Sign up"
+        android:textColor="#aa8464"
+        android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/TVmessage"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/BTNlogIn"
         app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/IVlogo"
+        android:layout_width="333dp"
+        android:layout_height="422dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/ETemail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/IVvideoFade"
+        app:srcCompat="@drawable/lt2" />
+
 
 </android.support.constraint.ConstraintLayout>
