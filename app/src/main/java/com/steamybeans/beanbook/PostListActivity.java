@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -14,8 +15,9 @@ import com.google.firebase.database.ValueEventListener;
 
 public class PostListActivity extends AppCompatActivity {
 
-    TextView post;
     DatabaseReference reff;
+    TextView temp;
+    LinearLayout linearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,10 +25,8 @@ public class PostListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_post_list);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        linearLayout = (LinearLayout) findViewById(R.id.postLinearLayout);
         setSupportActionBar(toolbar);
-
-        post = (TextView) findViewById(R.id.postContent);
-
 
         reff = FirebaseDatabase.getInstance().getReference().child("Users").child("u").child("posts");
 
@@ -37,12 +37,17 @@ public class PostListActivity extends AppCompatActivity {
                 long numPostsLong = dataSnapshot.getChildrenCount();
                 int numPosts = (int) numPostsLong;
                 String[] postList = new String[numPosts];
+                //Populating array of posts
                 for (int i = 0; i < numPosts; i++) {
                     String childName = "post" + (i);
                     postList[i] = dataSnapshot.child(childName).getValue().toString();
                 }
-
-                post.setText(postList[1]);
+                //Creating text field for each post
+                for (int i = 0; i < numPosts; i++) {
+                    temp = new TextView(PostListActivity.this);
+                    temp.setText(postList[i]);
+                    linearLayout.addView(temp);
+                }
 
             }
 
