@@ -29,8 +29,10 @@ public class MainActivity extends AppCompatActivity {
     private Button BTNlogIn;
     private Button BTNsignUp;
     private TextView TVmessage;
-    private DatabaseReference database;
+    private FirebaseConnection firebaseConnection;
+    private Authentication authentication;
     private VideoView VIDloginBG;
+
 
     final Context context = this;
 
@@ -85,22 +87,15 @@ public class MainActivity extends AppCompatActivity {
                 final String password = ETpassword.getText().toString();
                 ETemail.onEditorAction(EditorInfo.IME_ACTION_DONE);
                 ETpassword.onEditorAction(EditorInfo.IME_ACTION_DONE);
+                authentication = new Authentication();
+                firebaseConnection = new FirebaseConnection();
 
-                String encodedEmail = encodeString(email);
+                //encodes the email to a valid format for firebase
+                String encodedEmail = authentication.encodeString(email);
 
-                database = FirebaseDatabase.getInstance().getReference().child("Users").child(encodedEmail);
-                database.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        String actualPassword = dataSnapshot.child("password").getValue().toString();
+                //connects to firebase db and checks if email is valid
+                firebaseConnection.validPassword(encodedEmail, password, TVmessage);
 
-                        if (actualPassword.equals(password)) { TVmessage.setText("Success"); }
-                        else { TVmessage.setText("Failed"); }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {}
-                });
             }
         });
 
@@ -110,9 +105,5 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, Signup.class));
             }
         }));
-    }
-
-    public static String encodeString(String string) {
-        return string.replace(".", ",");
     }
 }

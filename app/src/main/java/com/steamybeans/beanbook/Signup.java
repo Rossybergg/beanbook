@@ -24,8 +24,9 @@ public class Signup extends AppCompatActivity {
     private EditText ETemail;
     private EditText ETpassword;
     private Button BTNsignUp;
-    private DatabaseReference database;
     private User user;
+    private Authentication authentication;
+    private FirebaseConnection firebaseConnection;
 
 
     @Override
@@ -41,7 +42,8 @@ public class Signup extends AppCompatActivity {
         ETpassword = (EditText) findViewById(R.id.ETpassword);
         BTNsignUp = (Button) findViewById(R.id.BTNsignUp);
         user = new User();
-        database = FirebaseDatabase.getInstance().getReference().child("Users");
+        authentication = new Authentication();
+        firebaseConnection = new FirebaseConnection();
 
         BTNsignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,51 +56,23 @@ public class Signup extends AppCompatActivity {
                 user.setFullName(fullName);
                 user.setPassword(password);
 
-                if (validEmail(email)) {
+                //checks if it is a valid email
+                if (authentication.validEmail(email)) {
 
-                    final String encodedEmail = encodeString(email);
+                    //encodes the email to a valid format for firebase
+                    String encodedEmail = authentication.encodeString(email);
 
-                    database.child(encodedEmail).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot snapshot) {
-                            if (snapshot.exists()) {
-                                Toast.makeText(Signup.this, "Email already registered", Toast.LENGTH_LONG).show();
-                            }
-                            else {
-                                database.child(encodedEmail).setValue(user);
+                    //checks if email exists and adds it if it doesn't
+                    firebaseConnection.addToDb(encodedEmail, user, Signup.this);
 
-                                startActivity(new Intent(Signup.this, MainActivity.class));
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-
-                    });
-
+                    //redirects to log in page
+                    startActivity(new Intent(Signup.this, MainActivity.class));
 
                 } else {
                     Toast.makeText(Signup.this, "Invalid email address", Toast.LENGTH_LONG).show();
                 }
             }
         });
-    }
-
-    public boolean validEmail(String email) {
-        Pattern pattern = Pattern.compile(".+@.+\\.[a-z]+");
-        Matcher matcher = pattern.matcher(email);
-        boolean matchFound = matcher.matches();
-        boolean result = false;
-        if (matchFound) {
-            result = true;
-        }
-        return result;
-    }
-
-    public static String encodeString(String string) {
-        return string.replace(".", ",");
     }
 
 }
