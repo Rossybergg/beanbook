@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
                 //connects to firebase db and checks if email is valid and password
                 firebaseConnection.emailExists(encodedEmail, password, TVmessage);
             }
+
             }
         });
 
