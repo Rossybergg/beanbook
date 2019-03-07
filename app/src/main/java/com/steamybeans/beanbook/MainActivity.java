@@ -93,8 +93,8 @@ public class MainActivity extends AppCompatActivity {
                 //encodes the email to a valid format for firebase
                 String encodedEmail = authentication.encodeString(email);
 
-                //connects to firebase db and checks if email is valid
-                firebaseConnection.validPassword(encodedEmail, password, TVmessage);
+                //connects to firebase db and checks if email is valid and password
+                firebaseConnection.emailExists(encodedEmail, password, TVmessage);
 
             }
         });
