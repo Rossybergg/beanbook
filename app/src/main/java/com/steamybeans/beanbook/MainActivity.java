@@ -13,6 +13,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 public class MainActivity extends AppCompatActivity {
@@ -83,12 +84,16 @@ public class MainActivity extends AppCompatActivity {
                 authentication = new Authentication();
                 firebaseConnection = new FirebaseConnection();
 
-                //encodes the email to a valid format for firebase
-                String encodedEmail = authentication.encodeString(email);
+                if (ETemail.getText().toString().equals("")) {
+                    Toast.makeText(MainActivity.this, "No email entered", Toast.LENGTH_LONG).show();
+                } else {
+
+                    //encodes the email to a valid format for firebase
+                    String encodedEmail = authentication.encodeString(email);
 
                 //connects to firebase db and checks if email is valid and password
                 firebaseConnection.emailExists(encodedEmail, password, TVmessage);
-
+            }
             }
         });
 
