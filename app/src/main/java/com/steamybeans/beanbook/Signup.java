@@ -2,21 +2,11 @@ package com.steamybeans.beanbook;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Signup extends AppCompatActivity {
 
@@ -56,8 +46,13 @@ public class Signup extends AppCompatActivity {
                 user.setFullName(fullName);
                 user.setPassword(password);
 
+                //checks for any empty fields
+                if ((ETfullName.getText().toString().equals("")) || (ETemail.getText().toString().equals("")) || (ETpassword.getText().toString().equals(""))) {
+                    Toast.makeText(Signup.this, "Please fill in all fields.", Toast.LENGTH_LONG).show();
+                }
+
                 //checks if it is a valid email
-                if (authentication.validEmail(email)) {
+                else if (authentication.validEmail(email)) {
 
                     //encodes the email to a valid format for firebase
                     String encodedEmail = authentication.encodeString(email);
@@ -69,7 +64,7 @@ public class Signup extends AppCompatActivity {
                     startActivity(new Intent(Signup.this, MainActivity.class));
 
                 } else {
-                    Toast.makeText(Signup.this, "Invalid email address", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Signup.this, "Invalid email address.", Toast.LENGTH_LONG).show();
                 }
             }
         });
