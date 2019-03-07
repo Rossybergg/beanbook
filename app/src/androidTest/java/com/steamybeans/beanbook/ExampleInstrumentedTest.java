@@ -33,6 +33,9 @@ public class ExampleInstrumentedTest {
         onView(withId(R.id.ETpassword)).perform(typeText("password"));
         onView(withId(R.id.BTNsignUp)).perform(click());
         onView(withId(R.id.BTNlogIn)).check(matches(isDisplayed()));
+
+        FirebaseConnection connection = new FirebaseConnection();
+        connection.deleteFromDb("joe,blogs@test,com");
     }
 
 }

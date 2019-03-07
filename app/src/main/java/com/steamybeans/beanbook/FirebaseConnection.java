@@ -1,7 +1,6 @@
 package com.steamybeans.beanbook;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,8 +10,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import static android.support.v4.content.ContextCompat.startActivity;
 
 public class FirebaseConnection {
 
@@ -57,9 +54,23 @@ public class FirebaseConnection {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-
                 }
 
+            });
+        }
+
+        public void deleteFromDb(final String email) {
+            final DatabaseReference database;
+            database = FirebaseDatabase.getInstance().getReference().child("Users");
+            database.child(email).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    dataSnapshot.getRef().removeValue();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
             });
         }
 }
