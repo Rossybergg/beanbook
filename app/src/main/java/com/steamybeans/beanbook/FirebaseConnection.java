@@ -38,7 +38,9 @@ public class FirebaseConnection {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {}
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
         });
 
     }
@@ -47,13 +49,35 @@ public class FirebaseConnection {
         final DatabaseReference database;
         database = FirebaseDatabase.getInstance().getReference().child("Users");
 
+        database.child(encodedEmail).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    Toast.makeText(context, "Email already registered", Toast.LENGTH_LONG).show();
+                } else {
+                    database.child(encodedEmail).setValue(user);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+            });
+        }
+
+        public void emailExists(final String encodedEmail, final String password, final TextView textView) {
+            final DatabaseReference database;
+            database = FirebaseDatabase.getInstance().getReference().child("Users");
+
             database.child(encodedEmail).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
                     if (snapshot.exists()) {
-                        Toast.makeText(context, "Email already registered", Toast.LENGTH_LONG).show();
+                    validPassword(encodedEmail, password, textView);
                     } else {
-                        database.child(encodedEmail).setValue(user);
+                    textView.setText("Email doesn't exist");
                     }
                 }
 
@@ -64,5 +88,6 @@ public class FirebaseConnection {
 
             });
         }
+
 }
 
