@@ -47,7 +47,7 @@ public class Signup extends AppCompatActivity {
                 user.setPassword(password);
 
                 //checks for any empty fields
-                if ((ETfullName.getText().toString().equals("")) || (ETemail.getText().toString().equals("")) || (ETpassword.getText().toString().equals(""))) {
+                if ((fullName.equals("")) || (email.equals("")) || (password.equals(""))) {
                     Toast.makeText(Signup.this, "Please fill in all fields.", Toast.LENGTH_LONG).show();
                 }
 
