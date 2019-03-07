@@ -30,9 +30,7 @@ public class FirebaseConnection {
 
                 if (actualPassword.equals(password)) {
                     textView.setText("Success");
-//                    Toast.makeText(context,"Invalid password",Toast.LENGTH_LONG);
                 } else {
-//                    Toast.makeText(context,"Password correct",Toast.LENGTH_SHORT);
                     textView.setText("Failed");
                 }
             }
