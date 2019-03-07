@@ -21,7 +21,7 @@
         android:id="@+id/IVvideoFade"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="0.7"
+        android:alpha="0.6"
         app:srcCompat="@color/common_google_signin_btn_text_dark_focused"
         tools:layout_editor_absoluteX="141dp"
         tools:layout_editor_absoluteY="51dp" />
