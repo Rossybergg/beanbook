@@ -2,7 +2,6 @@ package com.steamybeans.beanbook;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -16,29 +15,47 @@ public class FirebaseConnection {
     public FirebaseConnection() {
     }
 
-    public void validPassword(String encodedEmail, final String password, final TextView textView) {
+    public String getPassword(String encodedEmail) {
 
+        final String[] actualPassword = {};
         DatabaseReference database;
         database = FirebaseDatabase.getInstance().getReference().child("Users").child(encodedEmail);
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String actualPassword = dataSnapshot.child("password").getValue().toString();
+                actualPassword[0] = dataSnapshot.child("password").getValue().toString();
+            }
 
-                if (actualPassword.equals(password)) {
-                    textView.setText("Success");
-                } else {
-                    textView.setText("Failed");
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+        return actualPassword[0];
+    }
+
+    public boolean emailExists(final String encodedEmail) {
+        final boolean[] result = {false};
+        final DatabaseReference database;
+        database = FirebaseDatabase.getInstance().getReference().child("Users");
+
+        database.child(encodedEmail).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    result[0] = true;
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
+
         });
 
+        return result[0];
     }
+
 
     public void addToDb(final String encodedEmail, final User user, final Context context) {
         final DatabaseReference database;
@@ -58,27 +75,6 @@ public class FirebaseConnection {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-
-            });
-        }
-
-        public void emailExists(final String encodedEmail, final String password, final TextView textView) {
-            final DatabaseReference database;
-            database = FirebaseDatabase.getInstance().getReference().child("Users");
-
-            database.child(encodedEmail).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-                    validPassword(encodedEmail, password, textView);
-                    } else {
-                    textView.setText("Email doesn't exist");
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                }
 
             });
         }
