@@ -137,13 +137,13 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 }
+            }
+        });
 
-                BTNsignUp.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        startActivity(new Intent(MainActivity.this, Signup.class));
-                    }
-                });
+        BTNsignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, Signup.class));
             }
         });
     }

@@ -29,9 +29,13 @@ public class signupFeatureTest {
     public void clickSignUpButton_toOpenSignUpPage() throws Exception {
         onView(withId(R.id.BTNsignUp)).perform(click());
         onView(withId(R.id.ETfullName)).perform(typeText("Joe Bloggs"));
+        Thread.sleep(500);
         onView(withId(R.id.ETemail)).perform(typeText("joe.blogs@test.com"));
+        Thread.sleep(500);
         onView(withId(R.id.ETpassword)).perform(typeText("password"));
+        Thread.sleep(500);
         onView(withId(R.id.BTNsignUp)).perform(click());
+        Thread.sleep(500);
         onView(withId(R.id.BTNlogIn)).check(matches(isDisplayed()));
 
         FirebaseConnection connection = new FirebaseConnection();

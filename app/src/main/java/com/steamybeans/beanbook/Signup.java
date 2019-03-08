@@ -15,9 +15,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class Signup extends AppCompatActivity {
 
     private EditText ETfullName;
@@ -43,7 +40,6 @@ public class Signup extends AppCompatActivity {
         BTNsignUp = (Button) findViewById(R.id.BTNsignUp);
         user = new User();
         authentication = new Authentication();
-        firebaseConnection = new FirebaseConnection();
 
         BTNsignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +48,8 @@ public class Signup extends AppCompatActivity {
                 String fullName = ETfullName.getText().toString();
                 String email = ETemail.getText().toString();
                 String password = ETpassword.getText().toString();
+                final DatabaseReference database;
+                database = FirebaseDatabase.getInstance().getReference().child("Users");
 
                 user.setFullName(fullName);
                 user.setPassword(password);
@@ -60,13 +58,26 @@ public class Signup extends AppCompatActivity {
                 if (authentication.validEmail(email)) {
 
                     //encodes the email to a valid format for firebase
-                    String encodedEmail = authentication.encodeString(email);
+                    final String encodedEmail = authentication.encodeString(email);
 
                     //checks if email exists and adds it if it doesn't
-                    firebaseConnection.addToDb(encodedEmail, user, Signup.this);
+                    database.child(encodedEmail).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
+                                Toast.makeText(Signup.this, "Email already registered", Toast.LENGTH_LONG).show();
+                            } else {
+                                database.child(encodedEmail).setValue(user);
+                                //redirects to log in page
+                                startActivity(new Intent(Signup.this, MainActivity.class));
 
-                    //redirects to log in page
-                    startActivity(new Intent(Signup.this, MainActivity.class));
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
 
                 } else {
                     Toast.makeText(Signup.this, "Invalid email address", Toast.LENGTH_LONG).show();
