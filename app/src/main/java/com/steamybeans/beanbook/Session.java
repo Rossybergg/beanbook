@@ -22,6 +22,6 @@ public class Session {
     }
 
     public void logout() {
-        prefs.edit().putString("username", "").commit();
+        prefs.edit().remove("username").commit();
     }
 }
