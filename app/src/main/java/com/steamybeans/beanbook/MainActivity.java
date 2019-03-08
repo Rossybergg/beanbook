@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         session = new Session(getApplicationContext());
+        System.out.println(session.getUsername());
         init();
     }
 

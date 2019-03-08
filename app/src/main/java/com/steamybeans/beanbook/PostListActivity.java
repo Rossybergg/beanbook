@@ -1,9 +1,12 @@
 package com.steamybeans.beanbook;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,9 +21,17 @@ public class PostListActivity extends AppCompatActivity {
     DatabaseReference reff;
     TextView temp;
     LinearLayout linearLayout;
+    private Button BTNlogOut;
+    private Session session;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+        session = new Session(getApplicationContext());
+        System.out.println(session.getUsername());
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_list);
 
@@ -55,8 +66,19 @@ public class PostListActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
 
+        init();
 
+    }
 
+    public void init() {
+        BTNlogOut = (Button) findViewById(R.id.BTNlogOut);
 
+        BTNlogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                session.logout();
+                startActivity(new Intent(PostListActivity.this, MainActivity.class));
+            }
+        });
     }
 }

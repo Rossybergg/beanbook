@@ -20,4 +20,8 @@ public class Session {
         String username = prefs.getString("username", "");
         return username;
     }
+
+    public void logout() {
+        prefs.edit().putString("username", "").commit();
+    }
 }
