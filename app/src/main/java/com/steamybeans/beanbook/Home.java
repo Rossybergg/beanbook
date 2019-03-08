@@ -21,6 +21,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +44,8 @@ public class Home extends AppCompatActivity
     private TextView TVposts;
     private DatabaseReference database;
     private LinearLayout linearLayout;
+    private EditText ETaddPost;
+    private Button BTNrefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +53,9 @@ public class Home extends AppCompatActivity
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        ETaddPost = (EditText)findViewById(R.id.ETaddPost);
+        BTNrefresh = (Button)findViewById(R.id.BTNrefresh);
 
 
         FloatingActionButton BTNaddPost = (FloatingActionButton) findViewById(R.id.BTNaddPost);
@@ -63,7 +69,9 @@ public class Home extends AppCompatActivity
                 database.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
-                            database.child(Calendar.getInstance().getTime().toString()).setValue("testpost2");
+                            database.child(Calendar.getInstance().getTime().toString()).setValue(ETaddPost.getText().toString());
+                            ETaddPost.setText("");
+                             recreate();
 
 
                         }
@@ -73,12 +81,18 @@ public class Home extends AppCompatActivity
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
                 });
+            }
+        });
+
+        BTNrefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 recreate();
             }
         });
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -89,20 +103,6 @@ public class Home extends AppCompatActivity
 
         linearLayout = (LinearLayout)findViewById(R.id.LAYposts);
 
-//        FirebaseDatabase.getInstance().getReference().child("Users").child(user).child("posts")
-//                .addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(DataSnapshot dataSnapshot) {
-//                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                            TVposts = new TextView(Home.this);
-//                            TVposts.setText(snapshot.getValue().toString());
-//                            linearLayout.addView(TVposts);
-//                        }
-//                    }
-//                    @Override
-//                    public void onCancelled(DatabaseError databaseError) {
-//                    }
-//                });
 
 
 
@@ -172,10 +172,13 @@ public class Home extends AppCompatActivity
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+                        int i = 1;
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             TVposts = new TextView(Home.this);
                             TVposts.setText(snapshot.getValue().toString());
+                            TVposts.setId(i);
                             linearLayout.addView(TVposts);
+                            i++;
                         }
                     }
                     @Override
