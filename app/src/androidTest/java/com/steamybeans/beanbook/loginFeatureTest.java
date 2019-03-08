@@ -26,22 +26,25 @@ public class loginFeatureTest {
         // goes to signup page
         onView(withId(R.id.BTNsignUp)).perform(click());
         onView(withId(R.id.ETfullName)).perform(typeText("Joe Bloggs"));
+        onView(withId(R.id.ETfullName)).perform(closeSoftKeyboard());
         Thread.sleep(500);
         onView(withId(R.id.ETemail)).perform(typeText("joe.blogs@test.com"));
+        onView(withId(R.id.ETemail)).perform(closeSoftKeyboard());
         Thread.sleep(500);
         onView(withId(R.id.ETpassword)).perform(typeText("password"));
+        onView(withId(R.id.ETpassword)).perform(closeSoftKeyboard());
         Thread.sleep(500);
         onView(withId(R.id.BTNsignUp)).perform(click());
-        Thread.sleep(500);
+        Thread.sleep(2000);
         //adds to database and returns to login view
         onView(withId(R.id.ETemail)).perform(typeText("joe.blogs@test.com"));
-        Thread.sleep(500);
         onView(withId(R.id.ETemail)).perform(closeSoftKeyboard());
+        Thread.sleep(500);
         onView(withId(R.id.ETpassword)).perform(typeText("password"));
+        onView(withId(R.id.ETpassword)).perform(closeSoftKeyboard());
         Thread.sleep(500);
-        onView(withId(R.id.ETemail)).perform(closeSoftKeyboard());
         onView(withId(R.id.BTNlogIn)).perform(click());
-        Thread.sleep(500);
+        Thread.sleep(2000);
         onView(withId(R.id.TVmessage)).check(matches(withText("Success")));
 
         //this parts fails. who knows why
