@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -29,13 +30,16 @@ public class signupFeatureTest {
     public void clickSignUpButton_toOpenSignUpPage() throws Exception {
         onView(withId(R.id.BTNsignUp)).perform(click());
         onView(withId(R.id.ETfullName)).perform(typeText("Joe Bloggs"));
+        onView(withId(R.id.ETemail)).perform(closeSoftKeyboard());
         Thread.sleep(500);
         onView(withId(R.id.ETemail)).perform(typeText("joe.blogs@test.com"));
+        onView(withId(R.id.ETemail)).perform(closeSoftKeyboard());
         Thread.sleep(500);
         onView(withId(R.id.ETpassword)).perform(typeText("password"));
+        onView(withId(R.id.ETemail)).perform(closeSoftKeyboard());
         Thread.sleep(500);
         onView(withId(R.id.BTNsignUp)).perform(click());
-        Thread.sleep(500);
+        Thread.sleep(2000);
         onView(withId(R.id.BTNlogIn)).check(matches(isDisplayed()));
 
         FirebaseConnection connection = new FirebaseConnection();
