@@ -2,12 +2,12 @@ package com.steamybeans.beanbook;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -54,8 +54,13 @@ public class Signup extends AppCompatActivity {
                 user.setFullName(fullName);
                 user.setPassword(password);
 
+                //checks for any empty fields
+                if ((fullName.equals("")) || (email.equals("")) || (password.equals(""))) {
+                    Toast.makeText(Signup.this, "Please fill in all fields.", Toast.LENGTH_LONG).show();
+                }
+
                 //checks if it is a valid email
-                if (authentication.validEmail(email)) {
+                else if (authentication.validEmail(email)) {
 
                     //encodes the email to a valid format for firebase
                     final String encodedEmail = authentication.encodeString(email);
@@ -80,7 +85,7 @@ public class Signup extends AppCompatActivity {
                     });
 
                 } else {
-                    Toast.makeText(Signup.this, "Invalid email address", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Signup.this, "Invalid email address.", Toast.LENGTH_LONG).show();
                 }
             }
         });

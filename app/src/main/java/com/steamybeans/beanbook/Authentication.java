@@ -1,9 +1,16 @@
 package com.steamybeans.beanbook;
 
+import android.widget.EditText;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Authentication {
+
+    private EditText ETfullName;
+    private EditText ETemail;
+    private EditText ETpassword;
+
 
     public Authentication() {
     }
