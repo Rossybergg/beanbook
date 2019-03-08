@@ -1,6 +1,7 @@
 package com.steamybeans.beanbook;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.icu.util.Calendar;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -174,10 +175,19 @@ public class Home extends AppCompatActivity
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         int i = 1;
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+
                             TVposts = new TextView(Home.this);
                             TVposts.setText(snapshot.getValue().toString());
                             TVposts.setId(i);
+                            TVposts.setTextColor(Color.WHITE);
+                            TVposts.setTextSize(25);
+                            TVposts.setBackgroundColor(Color.BLACK);
+                            TVposts.setHeight(200);
                             linearLayout.addView(TVposts);
+                            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)TVposts.getLayoutParams();
+                            params.setMargins(0, 20, 0, 0); //substitute parameters for left, top, right, bottom
+                            TVposts.setLayoutParams(params);
                             i++;
                         }
                     }
