@@ -39,16 +39,23 @@ public class Home extends AppCompatActivity
 
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    public String user = "jedd@jeddmail,com";
-
     private TextView TVposts;
     private DatabaseReference database;
     private LinearLayout linearLayout;
     private EditText ETaddPost;
     private Button BTNrefresh;
+    private Session session;
+    private Authentication authentication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        session = new Session(getApplicationContext());
+        authentication = new Authentication();
+
+        String unencodedUser = session.getUsername();
+        final String user = authentication.encodeString(unencodedUser);
+        System.out.println(user);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -158,6 +165,9 @@ public class Home extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
+        } else if (id == R.id.nav_logout) {
+            session.logout();
+            startActivity(new Intent(Home.this, MainActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -167,6 +177,10 @@ public class Home extends AppCompatActivity
 
     protected void onResume() {
         super.onResume();
+
+        String unencodedUser = session.getUsername();
+        final String user = authentication.encodeString(unencodedUser);
+        System.out.println(user);
 
         FirebaseDatabase.getInstance().getReference().child("Users").child(user).child("posts")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
