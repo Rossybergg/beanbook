@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private Button BTNsignUp;
     private Authentication authentication;
     private VideoView VIDloginBG;
+
+    private Button BTNautoLogin;
     private Session session;
 
     @Override
@@ -69,6 +71,17 @@ public class MainActivity extends AppCompatActivity {
         ETpassword = (EditText) findViewById(R.id.ETpassword);
         BTNlogIn = (Button) findViewById(R.id.BTNlogIn);
         BTNsignUp = (Button) findViewById(R.id.BTNsignUp);
+
+        TVmessage = (TextView) findViewById(R.id.TVmessage);
+        BTNautoLogin = (Button) findViewById(R.id.BTNautoLogin);
+
+        BTNautoLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, Home.class));
+            }
+        });
+
 
         BTNlogIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                                             //set the session
                                             session.setUsername(ETemail.getText().toString());
                                             //if it is correct got to new page
-                                            startActivity(new Intent(MainActivity.this, PostListActivity.class));
+                                            startActivity(new Intent(MainActivity.this, Home.class));
                                         } else {
                                             //if password is incorrect Toast it
                                             Toast.makeText(MainActivity.this, "Password incorrect", Toast.LENGTH_LONG).show();
@@ -147,4 +160,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 }
