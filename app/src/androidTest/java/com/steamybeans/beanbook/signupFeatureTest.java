@@ -30,13 +30,13 @@ public class signupFeatureTest {
     public void clickSignUpButton_toOpenSignUpPage() throws Exception {
         onView(withId(R.id.BTNsignUp)).perform(click());
         onView(withId(R.id.ETfullName)).perform(typeText("Joe Bloggs"));
-        onView(withId(R.id.ETemail)).perform(closeSoftKeyboard());
+        onView(withId(R.id.ETfullName)).perform(closeSoftKeyboard());
         Thread.sleep(500);
         onView(withId(R.id.ETemail)).perform(typeText("joe.blogs@test.com"));
         onView(withId(R.id.ETemail)).perform(closeSoftKeyboard());
         Thread.sleep(500);
         onView(withId(R.id.ETpassword)).perform(typeText("password"));
-        onView(withId(R.id.ETemail)).perform(closeSoftKeyboard());
+        onView(withId(R.id.ETpassword)).perform(closeSoftKeyboard());
         Thread.sleep(500);
         onView(withId(R.id.BTNsignUp)).perform(click());
         Thread.sleep(2000);
