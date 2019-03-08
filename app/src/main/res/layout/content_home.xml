@@ -8,4 +8,13 @@
     tools:context=".Home"
     tools:showIn="@layout/app_bar_home">
 
+    <LinearLayout
+        android:id="@+id/LAYposts"
+        android:layout_width="395dp"
+        android:layout_height="659dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></LinearLayout>
 </android.support.constraint.ConstraintLayout>
