@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -12,48 +13,72 @@ import com.google.firebase.database.ValueEventListener;
 
 public class FirebaseConnection {
 
+    private static boolean result;
+    private static String actualPassword = "*";
+
     public FirebaseConnection() {
     }
 
-    public String getPassword(String encodedEmail) {
+    public boolean getResult() {
+        System.out.println(result);
+        return result;
+    }
 
-        final String[] actualPassword = {};
+    public void resetResult() {
+        result = false;
+        System.out.println(result);
+    }
+
+    public String getActualPassword() {
+        return actualPassword;
+    }
+
+    public void resetActualPassword() {
+        actualPassword = "*";
+    }
+
+    public void password(String encodedEmail) {
+
         DatabaseReference database;
         database = FirebaseDatabase.getInstance().getReference().child("Users").child(encodedEmail);
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                actualPassword[0] = dataSnapshot.child("password").getValue().toString();
+                actualPassword = dataSnapshot.child("password").getValue().toString();
+                System.out.println(actualPassword);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+    }
 
-        return actualPassword[0];
+    public void connectToDB() {
+        DatabaseReference database;
+        database = FirebaseDatabase.getInstance().getReference().child("Users");
     }
 
     public boolean emailExists(final String encodedEmail) {
-        final boolean[] result = {false};
-        final DatabaseReference database;
+        DatabaseReference database;
         database = FirebaseDatabase.getInstance().getReference().child("Users");
 
         database.child(encodedEmail).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    result[0] = true;
+                    System.out.println("CORRECT!!!!!!!!!");
+                    System.out.println(result);
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
-
         });
 
-        return result[0];
+        System.out.println(result);
+        return result;
     }
 
 
@@ -76,23 +101,22 @@ public class FirebaseConnection {
 
             }
 
-            });
-        }
+        });
+    }
 
-        public void deleteFromDb(final String email) {
-            final DatabaseReference database;
-            database = FirebaseDatabase.getInstance().getReference().child("Users");
-            database.child(email).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    dataSnapshot.getRef().removeValue();
-                }
+    public void deleteFromDb(final String email) {
+        final DatabaseReference database;
+        database = FirebaseDatabase.getInstance().getReference().child("Users");
+        database.child(email).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                dataSnapshot.getRef().removeValue();
+            }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                }
-            });
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
 
 }
-

@@ -25,4 +25,12 @@ public class Authentication {
         }
         return result;
     }
+
+    public boolean correctPassword(String actualPassword, String enteredPassword) {
+        boolean result = false;
+        if (actualPassword.equals(enteredPassword)) {
+            result = true;
+        }
+        return result;
+    }
 }

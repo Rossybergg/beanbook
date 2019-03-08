@@ -1,6 +1,5 @@
 package com.steamybeans.beanbook;
 
-import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -26,11 +25,6 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseConnection firebaseConnection;
     private Authentication authentication;
     private VideoView VIDloginBG;
-
-
-    final Context context = this;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +58,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
-
     private void init() {
         ETemail = (EditText) findViewById(R.id.ETemail);
         ETpassword = (EditText) findViewById(R.id.ETpassword);
@@ -78,22 +69,62 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String email = ETemail.getText().toString();
+
+                //create new Firebase object
+                firebaseConnection = new FirebaseConnection();
+
+                //create new authentication object
+                authentication = new Authentication();
+
+                //encodes the email to a valid format for firebase
+                String encodedEmail = authentication.encodeString(email);
+
+                //connect to db
+                firebaseConnection.connectToDB();
+
                 final String password = ETpassword.getText().toString();
                 ETemail.onEditorAction(EditorInfo.IME_ACTION_DONE);
                 ETpassword.onEditorAction(EditorInfo.IME_ACTION_DONE);
-                authentication = new Authentication();
-                firebaseConnection = new FirebaseConnection();
 
+
+                //checks if an email has been entered
                 if (ETemail.getText().toString().equals("")) {
                     Toast.makeText(MainActivity.this, "No email entered", Toast.LENGTH_LONG).show();
                 } else {
 
-                    //encodes the email to a valid format for firebase
-                    String encodedEmail = authentication.encodeString(email);
 
-                //connects to firebase db and checks if email is valid and password
-                firebaseConnection.emailExists(encodedEmail, password, TVmessage);
-            }
+                    //checks if email exists
+                    if (firebaseConnection.emailExists(encodedEmail)) {
+
+                        //gets the actual password
+                        firebaseConnection.password(encodedEmail);
+
+                        //sets the actual password
+                        String actualPassword = firebaseConnection.getActualPassword();
+
+                        //checks if password is correct if email exists
+                        if (authentication.correctPassword(actualPassword, password)) {
+
+                            //reset actual password
+                            firebaseConnection.resetActualPassword();
+
+                            //redirects to homepage
+//                            startActivity(new Intent(MainActivity.this, PostListActivity.class));
+
+                            Toast.makeText(MainActivity.this, "Password correct", Toast.LENGTH_LONG).show();
+
+                        } else {
+
+                            //gives toast is password is incorrect
+                            Toast.makeText(MainActivity.this, "Password incorrect", Toast.LENGTH_LONG).show();
+                        }
+
+                        //gives toast is email doesn't exist
+                    } else {
+                        Toast.makeText(MainActivity.this, "Email doesn't exist", Toast.LENGTH_LONG).show();
+                        firebaseConnection.getResult();
+                    }
+                }
 
             }
         });
@@ -105,6 +136,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }));
     }
-
-
 }
+
+
