@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
@@ -15,6 +16,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 public class MainActivity extends AppCompatActivity {
 
     private EditText ETemail;
@@ -22,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     private Button BTNlogIn;
     private Button BTNsignUp;
     private TextView TVmessage;
-    private FirebaseConnection firebaseConnection;
     private Authentication authentication;
     private VideoView VIDloginBG;
 
@@ -70,72 +76,75 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = ETemail.getText().toString();
 
-                //create new Firebase object
-                firebaseConnection = new FirebaseConnection();
-
                 //create new authentication object
                 authentication = new Authentication();
 
-                //encodes the email to a valid format for firebase
-                String encodedEmail = authentication.encodeString(email);
+                //create a db ref object
+                final DatabaseReference database;
 
-                //connect to db
-                firebaseConnection.connectToDB();
+                //connect to the child users
+                database = FirebaseDatabase.getInstance().getReference().child("Users");
+
+                //encodes the email to a valid format for firebase
+                final String encodedEmail = authentication.encodeString(email);
 
                 final String password = ETpassword.getText().toString();
                 ETemail.onEditorAction(EditorInfo.IME_ACTION_DONE);
                 ETpassword.onEditorAction(EditorInfo.IME_ACTION_DONE);
-
 
                 //checks if an email has been entered
                 if (ETemail.getText().toString().equals("")) {
                     Toast.makeText(MainActivity.this, "No email entered", Toast.LENGTH_LONG).show();
                 } else {
 
+                    //checks if the email exists
+                    database.child(encodedEmail).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
 
-                    //checks if email exists
-                    if (firebaseConnection.emailExists(encodedEmail)) {
+                                //check that the password is correct
+                                database.child(encodedEmail).addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                        //gets the actual password
-                        firebaseConnection.password(encodedEmail);
+                                        //gets actual password from db
+                                        String actualPassword = dataSnapshot.child("password").getValue().toString();
 
-                        //sets the actual password
-                        String actualPassword = firebaseConnection.getActualPassword();
+                                        //checks if password is correct
+                                        if (authentication.correctPassword(actualPassword, password)) {
+                                            //if it is correct got to new page
+                                            startActivity(new Intent(MainActivity.this, PostListActivity.class));
+                                        } else {
+                                            //if password is incorrect Toast it
+                                            Toast.makeText(MainActivity.this, "Password incorrect", Toast.LENGTH_LONG).show();
+                                        }
+                                    }
 
-                        //checks if password is correct if email exists
-                        if (authentication.correctPassword(actualPassword, password)) {
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    }
+                                });
 
-                            //reset actual password
-                            firebaseConnection.resetActualPassword();
-
-                            //redirects to homepage
-//                            startActivity(new Intent(MainActivity.this, PostListActivity.class));
-
-                            Toast.makeText(MainActivity.this, "Password correct", Toast.LENGTH_LONG).show();
-
-                        } else {
-
-                            //gives toast is password is incorrect
-                            Toast.makeText(MainActivity.this, "Password incorrect", Toast.LENGTH_LONG).show();
+                            } else {
+                                //if email does not exist print toast
+                                Toast.makeText(MainActivity.this, "No user associated with this email address", Toast.LENGTH_LONG).show();
+                            }
                         }
 
-                        //gives toast is email doesn't exist
-                    } else {
-                        Toast.makeText(MainActivity.this, "Email doesn't exist", Toast.LENGTH_LONG).show();
-                        firebaseConnection.getResult();
-                    }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
                 }
 
+                BTNsignUp.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(MainActivity.this, Signup.class));
+                    }
+                });
             }
         });
-
-        BTNsignUp.setOnClickListener((new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, Signup.class));
-            }
-        }));
     }
 }
-
-

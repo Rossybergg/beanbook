@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -68,6 +67,7 @@ public class FirebaseConnection {
             public void onDataChange(DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     System.out.println("CORRECT!!!!!!!!!");
+                    result = true;
                     System.out.println(result);
                 }
             }
