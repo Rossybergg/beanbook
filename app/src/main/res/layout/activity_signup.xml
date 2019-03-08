@@ -6,6 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".Signup">
 
+    <VideoView
+        android:id="@+id/VIDloginBG"
+        android:layout_width="4000px"
+        android:layout_height="match_parent"
+        android:foregroundTint="@android:color/background_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:id="@+id/IVvideoFade"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.6"
+        app:srcCompat="@color/common_google_signin_btn_text_dark_focused"
+        tools:layout_editor_absoluteX="141dp"
+        tools:layout_editor_absoluteY="51dp" />
+
     <Button
         android:id="@+id/BTNsignUp"
         android:layout_width="wrap_content"
@@ -19,14 +39,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ETpassword"
-        app:layout_constraintVertical_bias="0.118" />
+        app:layout_constraintVertical_bias="0.282" />
 
     <EditText
         android:id="@+id/ETfullName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="392dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="Full name"
@@ -40,7 +60,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="Email address"
@@ -49,12 +69,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ETfullName" />
 
+    <ImageView
+        android:id="@+id/IVlogo"
+        android:layout_width="333dp"
+        android:layout_height="422dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/ETemail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/IVvideoFade"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/lt2" />
+
     <EditText
         android:id="@+id/ETpassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="Password"
