@@ -47,6 +47,7 @@ public class Home extends AppCompatActivity
     private Button BTNrefresh;
     private Session session;
     private Authentication authentication;
+    private TextView TVemailAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +63,8 @@ public class Home extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ETaddPost = (EditText)findViewById(R.id.ETaddPost);
-        BTNrefresh = (Button)findViewById(R.id.BTNrefresh);
+        ETaddPost = (EditText) findViewById(R.id.ETaddPost);
+        BTNrefresh = (Button) findViewById(R.id.BTNrefresh);
 
 
         FloatingActionButton BTNaddPost = (FloatingActionButton) findViewById(R.id.BTNaddPost);
@@ -77,12 +78,12 @@ public class Home extends AppCompatActivity
                 database.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
-                            database.child(Calendar.getInstance().getTime().toString()).setValue(ETaddPost.getText().toString());
-                            ETaddPost.setText("");
-                             recreate();
+                        database.child(Calendar.getInstance().getTime().toString()).setValue(ETaddPost.getText().toString());
+                        ETaddPost.setText("");
+                        recreate();
 
 
-                        }
+                    }
 
 
                     @Override
@@ -100,21 +101,25 @@ public class Home extends AppCompatActivity
         });
 
 
-                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View header = navigationView.getHeaderView(0);
+        TextView TVemailaddress = header.findViewById(R.id.TVemailAddress);
+
+        //Set Navbar Headers text
+        TVemailaddress.setText(session.getUsername());
         navigationView.setNavigationItemSelectedListener(this);
 
-        linearLayout = (LinearLayout)findViewById(R.id.LAYposts);
+        linearLayout = (LinearLayout) findViewById(R.id.LAYposts);
 
 
-
-
-            }
+    }
 
     @Override
     public void onBackPressed() {
@@ -139,7 +144,6 @@ public class Home extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
@@ -199,12 +203,13 @@ public class Home extends AppCompatActivity
                             TVposts.setBackgroundColor(Color.BLACK);
                             TVposts.setHeight(200);
                             linearLayout.addView(TVposts);
-                            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)TVposts.getLayoutParams();
+                            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) TVposts.getLayoutParams();
                             params.setMargins(0, 20, 0, 0); //substitute parameters for left, top, right, bottom
                             TVposts.setLayoutParams(params);
                             i++;
                         }
                     }
+
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                     }
