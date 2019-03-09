@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
         BTNlogIn = (Button) findViewById(R.id.BTNlogIn);
         BTNsignUp = (Button) findViewById(R.id.BTNsignUp);
 
-        TVmessage = (TextView) findViewById(R.id.TVmessage);
         BTNautoLogin = (Button) findViewById(R.id.BTNautoLogin);
 
         BTNautoLogin.setOnClickListener(new View.OnClickListener() {
