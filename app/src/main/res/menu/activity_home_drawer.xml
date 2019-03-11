@@ -6,14 +6,6 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_add_friend"
-            android:icon="@drawable/ic_person_add"
-            android:title="Add friend" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
-        <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Slideshow" />
@@ -22,6 +14,20 @@
             android:icon="@drawable/ic_menu_manage"
             android:title="Tools" />
     </group>
+
+    <item android:title="Friends">
+        <menu>
+            <item
+            android:id="@+id/nav_add_friend"
+            android:icon="@drawable/ic_person_add"
+            android:title="Add friend" />
+            <item
+                android:id="@+id/nav_view_friends"
+                android:icon="@drawable/ic_menu_gallery"
+                android:title="View friends" />
+        </menu>
+    </item>
+
 
     <item android:title="Communicate">
         <menu>
