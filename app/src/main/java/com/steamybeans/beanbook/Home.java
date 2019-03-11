@@ -187,26 +187,42 @@ public class Home extends AppCompatActivity
         final String user = authentication.encodeString(unencodedUser);
         System.out.println(user);
 
-        FirebaseDatabase.getInstance().getReference().child("Users").child(user).child("posts")
+        // getting all friends
+        FirebaseDatabase.getInstance().getReference().child("Users").child(user).child("friends")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        int i = 1;
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            String friend = snapshot.getKey();
+
+            //getting all posts of particular friend
+            FirebaseDatabase.getInstance().getReference().child("Users").child(friend).child("posts")
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            int i = 1;
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
 
-                            TVposts = new TextView(Home.this);
-                            TVposts.setText(snapshot.getValue().toString());
-                            TVposts.setId(i);
-                            TVposts.setTextColor(Color.WHITE);
-                            TVposts.setTextSize(25);
-                            TVposts.setBackgroundColor(Color.BLACK);
-                            TVposts.setHeight(200);
-                            linearLayout.addView(TVposts);
-                            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) TVposts.getLayoutParams();
-                            params.setMargins(0, 20, 0, 0); //substitute parameters for left, top, right, bottom
-                            TVposts.setLayoutParams(params);
-                            i++;
+                                TVposts = new TextView(Home.this);
+                                TVposts.setText(snapshot.getValue().toString());
+                                TVposts.setId(i);
+                                TVposts.setTextColor(Color.WHITE);
+                                TVposts.setTextSize(25);
+                                TVposts.setBackgroundColor(Color.BLACK);
+                                TVposts.setHeight(200);
+                                linearLayout.addView(TVposts);
+                                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) TVposts.getLayoutParams();
+                                params.setMargins(0, 20, 0, 0); //substitute parameters for left, top, right, bottom
+                                TVposts.setLayoutParams(params);
+                                i++;
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                        }
+                    });
                         }
                     }
 
@@ -214,7 +230,6 @@ public class Home extends AppCompatActivity
                     public void onCancelled(DatabaseError databaseError) {
                     }
                 });
-
 
     }
 
