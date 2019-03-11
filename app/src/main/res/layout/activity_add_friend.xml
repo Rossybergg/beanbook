@@ -19,7 +19,7 @@
 
     <EditText
         android:id="@+id/ETSearchFriend"
-        android:layout_width="wrap_content"
+        android:layout_width="320dp"
         android:layout_height="45dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -33,4 +33,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.011" />
+
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/scrollView3"
+        android:layout_width="fill_parent"
+        android:layout_height="526dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/Layfriends"
+            android:layout_width="395dp"
+            android:layout_height="536dp"
+            android:layout_marginBottom="80dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"></LinearLayout>
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>
