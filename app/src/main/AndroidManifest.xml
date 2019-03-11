@@ -13,15 +13,6 @@
             android:name=".Home"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
-            android:name=".PostListActivity"
-            android:label="@string/title_activity_post_list"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.steamybeans.beanbook.MainActivity" />
-        </activity>
         <activity android:name=".Signup" />
         <activity android:name=".MainActivity">
             <intent-filter>
