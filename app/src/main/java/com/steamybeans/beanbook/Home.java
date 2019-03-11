@@ -112,6 +112,7 @@ public class Home extends AppCompatActivity
         View header = navigationView.getHeaderView(0);
         TextView TVemailaddress = header.findViewById(R.id.TVemailAddress);
 
+
         //Set Navbar Headers text
         TVemailaddress.setText(session.getUsername());
         navigationView.setNavigationItemSelectedListener(this);
@@ -158,8 +159,8 @@ public class Home extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
+        if (id == R.id.nav_add_friend) {
+            startActivity(new Intent(Home.this, AddFriendActivity.class));
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
