@@ -46,7 +46,7 @@ public class AddFriendActivity extends AppCompatActivity {
 
 
                             TVfriends = new TextView(AddFriendActivity.this);
-                            TVfriends.setText(snapshot.getKey() + ", " + snapshot.child("fullName").getValue());
+                            TVfriends.setText(snapshot.child("fullName").getValue() + " ");
                             TVfriends.setId(i);
                             TVfriends.setTextColor(Color.WHITE);
                             TVfriends.setTextSize(25);
