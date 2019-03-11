@@ -3,12 +3,8 @@ package com.steamybeans.beanbook;
 import android.content.Intent;
 import android.graphics.Color;
 import android.icu.util.Calendar;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.solver.widgets.Snapshot;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
@@ -24,12 +20,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.VideoView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -122,6 +117,7 @@ public class Home extends AppCompatActivity
         View header = navigationView.getHeaderView(0);
         TextView TVemailaddress = header.findViewById(R.id.TVemailAddress);
 
+
         //Set Navbar Headers text
         TVemailaddress.setText(session.getUsername());
         navigationView.setNavigationItemSelectedListener(this);
@@ -166,9 +162,9 @@ public class Home extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_add_friend) {
+            startActivity(new Intent(Home.this, AddFriendActivity.class));
+        } else if (id == R.id.nav_view_friends) {
 
         } else if (id == R.id.nav_slideshow) {
 
