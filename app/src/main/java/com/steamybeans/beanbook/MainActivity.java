@@ -15,6 +15,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+interface OnGetDataListener {
+    boolean onSuccess(FirebaseConnection fb);
+}
+
+class CallbackImpl implements OnGetDataListener {
+    public boolean onSuccess(FirebaseConnection fb) {
+        System.out.println("implementing call back");
+        return fb.resultTrue();
+    }
+}
+
+class Caller {
+    public boolean register(OnGetDataListener listener, FirebaseConnection fb) {
+        return listener.onSuccess(fb);
+    }
+}
+
 public class MainActivity extends AppCompatActivity {
 
     private EditText ETemail;
@@ -94,8 +111,8 @@ public class MainActivity extends AppCompatActivity {
 
 
                     //checks if email exists
-                    if (firebaseConnection.emailExists(encodedEmail)) {
 
+                    if (firebaseConnection.emailExists(encodedEmail, firebaseConnection)) {
                         //gets the actual password
                         firebaseConnection.password(encodedEmail);
 

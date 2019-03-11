@@ -11,6 +11,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.concurrent.CountDownLatch;
+
+
 public class FirebaseConnection {
 
     private static boolean result;
@@ -19,15 +22,21 @@ public class FirebaseConnection {
     public FirebaseConnection() {
     }
 
-    public boolean getResult() {
+    public static boolean getResult() {
         System.out.println(result);
         return result;
     }
 
-    public void resetResult() {
-        result = false;
-        System.out.println(result);
+    public boolean resultTrue() {
+        System.out.println("changing result to true");
+        result = true;
+        return result;
     }
+
+//    public void resetResult() {
+//        result = false;
+//        System.out.println(result);
+//    }
 
     public String getActualPassword() {
         return actualPassword;
@@ -59,26 +68,43 @@ public class FirebaseConnection {
         database = FirebaseDatabase.getInstance().getReference().child("Users");
     }
 
-    public boolean emailExists(final String encodedEmail) {
+
+
+
+
+    public boolean emailExists(final String encodedEmail, final FirebaseConnection fb) {
+        result = false;
+        final Caller caller = new Caller();
+        final OnGetDataListener newDataListner = new CallbackImpl();
         DatabaseReference database;
         database = FirebaseDatabase.getInstance().getReference().child("Users");
-
         database.child(encodedEmail).addListenerForSingleValueEvent(new ValueEventListener() {
+            boolean returnTrue() {
+                System.out.println("returning true");
+                return true;
+            }
+            boolean returnFalse() {
+                return false;
+            }
             @Override
             public void onDataChange(DataSnapshot snapshot) {
+
                 if (snapshot.exists()) {
-                    System.out.println("CORRECT!!!!!!!!!");
-                    System.out.println(result);
+                    System.out.println("data has been retrieved");
+                    caller.register(newDataListner, fb);
+                    returnTrue();
+                }
+                else {
+                    returnFalse();
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
+
         });
 
-        System.out.println(result);
-        return result;
     }
 
 
