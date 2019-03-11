@@ -11,6 +11,9 @@ import android.support.constraint.ConstraintLayout;
 import android.support.constraint.solver.widgets.Snapshot;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.format.Time;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -34,6 +37,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class Home extends AppCompatActivity
@@ -41,6 +46,7 @@ public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private TextView TVposts;
+    private CardView TVcard;
     private DatabaseReference database;
     private LinearLayout linearLayout;
     private EditText ETaddPost;
@@ -48,6 +54,10 @@ public class Home extends AppCompatActivity
     private Session session;
     private Authentication authentication;
     private TextView TVemailAddress;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private List<ListItem> listItems;
+    private LinearLayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,8 +126,6 @@ public class Home extends AppCompatActivity
         TVemailaddress.setText(session.getUsername());
         navigationView.setNavigationItemSelectedListener(this);
 
-        linearLayout = (LinearLayout) findViewById(R.id.LAYposts);
-
 
     }
 
@@ -185,7 +193,17 @@ public class Home extends AppCompatActivity
 
         String unencodedUser = session.getUsername();
         final String user = authentication.encodeString(unencodedUser);
-        System.out.println(user);
+
+        // find recycler view
+        recyclerView = (RecyclerView)findViewById(R.id.RVfeed);
+
+        // set linear layout manager
+        layoutManager = new LinearLayoutManager(Home.this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        //Creates the array that stores the posts
+        listItems = new ArrayList<>();
+
 
         // getting all friends
         FirebaseDatabase.getInstance().getReference().child("Users").child(user).child("friends")
@@ -194,6 +212,7 @@ public class Home extends AppCompatActivity
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             String friend = snapshot.getKey();
+                            final String name = snapshot.getValue().toString();
 
             //getting all posts of particular friend
             FirebaseDatabase.getInstance().getReference().child("Users").child(friend).child("posts")
@@ -203,19 +222,14 @@ public class Home extends AppCompatActivity
                             int i = 1;
                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
+                                ListItem listItem = new ListItem(
+                                        name,
+                                        snapshot.getValue().toString()
+                                );
+                                listItems.add(listItem);
+                                adapter = new MyAdapter(listItems, Home.this);
+                                recyclerView.setAdapter(adapter);
 
-                                TVposts = new TextView(Home.this);
-                                TVposts.setText(snapshot.getValue().toString());
-                                TVposts.setId(i);
-                                TVposts.setTextColor(Color.WHITE);
-                                TVposts.setTextSize(25);
-                                TVposts.setBackgroundColor(Color.BLACK);
-                                TVposts.setHeight(200);
-                                linearLayout.addView(TVposts);
-                                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) TVposts.getLayoutParams();
-                                params.setMargins(0, 20, 0, 0); //substitute parameters for left, top, right, bottom
-                                TVposts.setLayoutParams(params);
-                                i++;
                             }
                         }
 
