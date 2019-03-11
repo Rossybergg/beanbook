@@ -68,7 +68,7 @@ public class AddFriendActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance().getReference().child("Users").child(user);
 
 
-        FirebaseDatabase.getInstance().getReference().child("Users").orderByChild("fullName").startAt(search).endAt(search + "\uf8ff")
+        FirebaseDatabase.getInstance().getReference().child("Users").orderByChild("fullName").startAt(search.toLowerCase()).endAt(search.toLowerCase() + "\uf8ff")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
 
                     @Override
