@@ -159,7 +159,7 @@ public class Home extends AppCompatActivity
         if (id == R.id.nav_add_friend) {
             startActivity(new Intent(Home.this, AddFriendActivity.class));
         } else if (id == R.id.nav_view_friends) {
-
+            startActivity(new Intent(Home.this, ViewFriendsActivity.class));
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
