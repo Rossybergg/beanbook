@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                                             session.setUsername(ETemail.getText().toString());
 
                                             // Get user's full name from database
-                                            session.setFullname(snapshot.child("fullName").getValue().toString());
+                                            session.setFullName(snapshot.child("fullName").getValue().toString());
 
                                             //if it is correct got to new page
                                             startActivity(new Intent(MainActivity.this, Home.class));
