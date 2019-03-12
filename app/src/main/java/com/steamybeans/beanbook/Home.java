@@ -78,13 +78,12 @@ public class Home extends AppCompatActivity
                 database.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
-                        database.child(Calendar.getInstance().getTime().toString()).setValue(ETaddPost.getText().toString());
-                        ETaddPost.setText("");
-                        recreate();
-
-
+                        if (ETaddPost.getText().toString().trim().length() > 0) {
+                            database.child(Calendar.getInstance().getTime().toString()).setValue(ETaddPost.getText().toString());
+                            ETaddPost.setText("");
+                            recreate();
+                        }
                     }
-
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {

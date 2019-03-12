@@ -57,15 +57,15 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/RVfeed"
         android:layout_width="match_parent"
-        android:layout_height="581dp"
+        android:layout_height="471dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/BTNrefresh"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/scrollView2" />
+        app:layout_constraintTop_toBottomOf="@+id/ETaddPost" />
 
 </android.support.constraint.ConstraintLayout>
