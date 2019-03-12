@@ -37,14 +37,15 @@ public class ViewAndCommentOnPost extends AppCompatActivity {
 
         Intent intent = getIntent();
         String email = intent.getStringExtra("email");
-        String time = intent.getStringExtra("time");
+        final String time = intent.getStringExtra("time");
 
         FirebaseDatabase.getInstance().getReference().child("Users").child(email)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         TVUser.setText(dataSnapshot.child("fullName").getValue().toString());
-
+                        TVTime.setText(time);
+                        TVPost.setText(dataSnapshot.child("posts").child(time).child("content").getValue().toString());
                     }
 
                     @Override
