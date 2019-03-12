@@ -73,13 +73,13 @@ public class Home extends AppCompatActivity
             public void onClick(View view) {
 
                 final DatabaseReference database;
-                database = FirebaseDatabase.getInstance().getReference().child("Users").child(user).child("posts");
+                database = FirebaseDatabase.getInstance().getReference().child("Users").child(user).child("posts").child(Calendar.getInstance().getTime().toString());
 
                 database.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
                         if (ETaddPost.getText().toString().trim().length() > 0) {
-                            database.child(Calendar.getInstance().getTime().toString()).setValue(ETaddPost.getText().toString());
+                            database.child("content").setValue(ETaddPost.getText().toString());
                             ETaddPost.setText("");
                             recreate();
                         }
@@ -203,8 +203,9 @@ public class Home extends AppCompatActivity
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             String friend = snapshot.getKey();
                             final String name = snapshot.getValue().toString();
+                            final String email = snapshot.getKey();
 
-            //getting all posts of particular friend
+                            //getting all posts of particular friend
             FirebaseDatabase.getInstance().getReference().child("Users").child(friend).child("posts")
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -212,10 +213,17 @@ public class Home extends AppCompatActivity
                             int i = 1;
                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
+                                int counter = 0;
+                                for (DataSnapshot snapshot2 : snapshot.child("likes").getChildren()) {
+                                    counter++;
+                                }
+
                                 ListItem listItem = new ListItem(
                                         name,
-                                        snapshot.getValue().toString(),
-                                        snapshot.getKey().toString()
+                                        snapshot.child("content").getValue().toString(),
+                                        snapshot.getKey().toString(),
+                                        likesCalculator(counter),
+                                        email
                                 );
                                 listItems.add(listItem);
                                 adapter = new MyAdapter(listItems, Home.this);
@@ -235,6 +243,18 @@ public class Home extends AppCompatActivity
                     public void onCancelled(DatabaseError databaseError) {
                     }
                 });
+
+    }
+
+    public String likesCalculator(int numLikes) {
+        if (numLikes == 0) {
+            return "";
+        } else if (numLikes == 1) {
+            return "1 like";
+        } else {
+            String numValue = String.valueOf(numLikes);
+            return numValue + " likes";
+        }
 
     }
 
