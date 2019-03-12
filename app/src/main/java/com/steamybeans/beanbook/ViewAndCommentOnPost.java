@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -36,16 +37,61 @@ public class ViewAndCommentOnPost extends AppCompatActivity {
         BTNLike = (Button) findViewById(R.id.BTNLike);
 
         Intent intent = getIntent();
-        String email = intent.getStringExtra("email");
+        final String email = intent.getStringExtra("email");
         final String time = intent.getStringExtra("time");
+
 
         FirebaseDatabase.getInstance().getReference().child("Users").child(email)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+
+                        Home home = new Home();
+
+                        int counter = 0;
+                        for (DataSnapshot snapshot2 : dataSnapshot.child("posts").child(time).child("likes").getChildren()) {
+                            counter++;
+                        }
+
                         TVUser.setText(dataSnapshot.child("fullName").getValue().toString());
                         TVTime.setText(time);
                         TVPost.setText(dataSnapshot.child("posts").child(time).child("content").getValue().toString());
+                        TVLikes.setText(home.likesCalculator(counter));
+
+                        BTNLike.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                final DatabaseReference database;
+                                database = FirebaseDatabase.getInstance().getReference().child("Users").child(email).child("posts").child(time).child("likes");
+
+                                // getting the user session
+                                Session session;
+                                Authentication authentication;
+                                session = new Session(getApplicationContext());
+                                authentication = new Authentication();
+                                String unencodedUser = session.getUsername();
+                                final String user = authentication.encodeString(unencodedUser);
+
+
+                                // adds like to database
+                                database.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        database.child(user).setValue("1");
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+
+                            }
+                        });
+
+
+
                     }
 
                     @Override
