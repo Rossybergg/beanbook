@@ -24,7 +24,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
-        System.out.println("In on create view holder");
         return new ViewHolder(v);
     }
 
@@ -32,8 +31,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
     ListItem listItem = listItems.get(i);
 
-        viewHolder.textViewUser.setText(listItem.getUser());
-        viewHolder.textViewPost.setText(listItem.getPost());
+        viewHolder.TVUser.setText(listItem.getUser());
+        viewHolder.TVTime.setText(listItem.getTime());
+        viewHolder.TVPost.setText(listItem.getPost());
     }
 
     @Override
@@ -55,14 +55,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView textViewUser;
-        public TextView textViewPost;
+        public TextView TVUser;
+        public TextView TVTime;
+        public TextView TVPost;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            textViewUser = (TextView) itemView.findViewById(R.id.textViewUser);
-            textViewPost = (TextView) itemView.findViewById(R.id.textViewPost);
+            TVUser = (TextView) itemView.findViewById(R.id.TVUser);
+            TVTime = (TextView) itemView.findViewById(R.id.TVTime);
+            TVPost = (TextView) itemView.findViewById(R.id.TVPost);
         }
     }
 }
