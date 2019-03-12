@@ -1,7 +1,7 @@
 package com.steamybeans.beanbook;
 
 public class NameFormatter {
-    public String capitalize(String name) {
+    public static String capitalize(String name) {
         String temp = "";
         String capitalizedName = "";
         // Split string to segments either side of space(s)

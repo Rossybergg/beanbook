@@ -22,7 +22,7 @@ public class Session {
     }
 
     public void setFullName(String fullName) {
-        prefs.edit().putString("fullName", fullName).commit();
+        prefs.edit().putString("fullName", NameFormatter.capitalize(fullName)).commit();
     }
 
     public String getFullName() {
