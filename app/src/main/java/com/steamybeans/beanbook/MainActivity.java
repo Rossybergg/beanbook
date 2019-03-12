@@ -123,8 +123,11 @@ public class MainActivity extends AppCompatActivity {
                                         String actualPassword = dataSnapshot.child("password").getValue().toString();
                                         //checks if password is correct
                                         if (authentication.correctPassword(actualPassword, password)) {
-                                            //set the session
+                                            //set the session parameters
                                             session.setUsername(ETemail.getText().toString());
+                                            // Get user's full name from database
+                                            String userFullName = dataSnapshot.child("fullName").getValue().toString();
+                                            session.setFullName(userFullName);
                                             //if it is correct got to new page
                                             startActivity(new Intent(MainActivity.this, Home.class));
                                         } else {
