@@ -4,10 +4,12 @@ public class ListItem {
 
     private String user;
     private String post;
+    private String time;
 
-    public ListItem(String user, String post) {
+    public ListItem(String user, String post, String time) {
         this.user = user;
         this.post = post;
+        this.time = time;
     }
 
     public String getUser() {
@@ -17,4 +19,6 @@ public class ListItem {
     public String getPost() {
         return post;
     }
+
+    public String getTime() { return time; }
 }
