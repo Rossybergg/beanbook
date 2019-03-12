@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                     //checks if the email exists
                     database.child(encodedEmail).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
-                        public void onDataChange(DataSnapshot snapshot) {
+                        public void onDataChange(final DataSnapshot snapshot) {
                             if (snapshot.exists()) {
 
                                 //check that the password is correct
@@ -125,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
                                         if (authentication.correctPassword(actualPassword, password)) {
                                             //set the session
                                             session.setUsername(ETemail.getText().toString());
+                                            session.setFullname(snapshot.child("fullName").getValue().toString());
                                             //if it is correct got to new page
                                             startActivity(new Intent(MainActivity.this, Home.class));
                                         } else {

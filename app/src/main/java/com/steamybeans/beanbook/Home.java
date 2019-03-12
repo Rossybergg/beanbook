@@ -110,10 +110,12 @@ public class Home extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View header = navigationView.getHeaderView(0);
         TextView TVemailaddress = header.findViewById(R.id.TVemailAddress);
+        TextView TVfullname = header.findViewById(R.id.TVfullname);
 
 
         //Set Navbar Headers text
         TVemailaddress.setText(session.getUsername());
+        TVfullname.setText(session.getFullname());
         navigationView.setNavigationItemSelectedListener(this);
 
 
