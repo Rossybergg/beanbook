@@ -75,7 +75,8 @@ public class Signup extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String fullName = ETfullName.getText().toString();
+                // Full name stored in lower-case upon entry
+                String fullName = ETfullName.getText().toString().toLowerCase();
                 String email = ETemail.getText().toString();
                 String password = ETpassword.getText().toString();
                 final DatabaseReference database;
