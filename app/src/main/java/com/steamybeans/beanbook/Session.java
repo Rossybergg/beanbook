@@ -21,6 +21,15 @@ public class Session {
         return username;
     }
 
+    public void setFullName(String fullName) {
+        prefs.edit().putString("fullName", fullName).commit();
+    }
+
+    public String getFullName() {
+        String fullName = prefs.getString("fullName", "");
+        return fullName;
+    }
+
     public void logout() {
         prefs.edit().remove("username").commit();
     }
