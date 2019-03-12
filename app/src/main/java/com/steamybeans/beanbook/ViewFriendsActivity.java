@@ -47,7 +47,7 @@ public class ViewFriendsActivity extends AppCompatActivity {
                         for (final DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
                             TVfriends = new TextView(ViewFriendsActivity.this);
-                            TVfriends.setText(snapshot.getValue() + " ");
+                            TVfriends.setText(NameFormatter.capitalize(snapshot.getValue() + " "));
                             TVfriends.setId(i);
                             TVfriends.setTextColor(Color.WHITE);
                             TVfriends.setTextSize(25);
