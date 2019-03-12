@@ -46,16 +46,19 @@ public class ViewAndCommentOnPost extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
 
-                        Home home = new Home();
+                        final Home home = new Home();
 
                         int counter = 0;
                         for (DataSnapshot snapshot2 : dataSnapshot.child("posts").child(time).child("likes").getChildren()) {
                             counter++;
                         }
 
+                        final int counter2 = counter;
+
                         TVUser.setText(dataSnapshot.child("fullName").getValue().toString());
                         TVTime.setText(time);
                         TVPost.setText(dataSnapshot.child("posts").child(time).child("content").getValue().toString());
+
                         TVLikes.setText(home.likesCalculator(counter));
 
                         BTNLike.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +82,11 @@ public class ViewAndCommentOnPost extends AppCompatActivity {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                         database.child(user).setValue("1");
+
+                                        // this is a really stupid way of doing this but we cant think of another way
+                                        final int counter3 = counter2 + 1;
+                                        TVLikes.setText(home.likesCalculator(counter3));
+
                                     }
 
                                     @Override
