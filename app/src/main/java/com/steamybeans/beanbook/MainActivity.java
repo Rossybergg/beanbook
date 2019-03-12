@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         BTNautoLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, Home.class));
+                startActivity(new Intent(MainActivity.this, CoffeeFinder.class));
             }
         });
 
