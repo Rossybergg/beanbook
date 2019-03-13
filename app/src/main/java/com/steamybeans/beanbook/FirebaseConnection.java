@@ -107,7 +107,7 @@ public class FirebaseConnection {
     public void deleteFromDb(final String email) {
         final DatabaseReference database;
         database = FirebaseDatabase.getInstance().getReference().child("Users");
-        database.child(email).addValueEventListener(new ValueEventListener() {
+        database.child(email).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 dataSnapshot.getRef().removeValue();

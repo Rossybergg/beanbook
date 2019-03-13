@@ -247,8 +247,5 @@ public class Home extends AppCompatActivity
             String numValue = String.valueOf(numLikes);
             return numValue + " likes";
         }
-
     }
-
-
 }
