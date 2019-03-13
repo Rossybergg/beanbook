@@ -35,15 +35,11 @@ public class Home extends AppCompatActivity
 
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private TextView TVposts;
-    private CardView TVcard;
-    private DatabaseReference database;
-    private LinearLayout linearLayout;
+
     private EditText ETaddPost;
     private Button BTNrefresh;
     private Session session;
     private Authentication authentication;
-    private TextView TVemailAddress;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private List<ListItem> listItems;
@@ -163,7 +159,7 @@ public class Home extends AppCompatActivity
         } else if (id == R.id.nav_view_friends) {
             startActivity(new Intent(Home.this, ViewFriendsActivity.class));
         } else if (id == R.id.nav_home) {
-
+            startActivity(new Intent(Home.this, Home.class));
         }  else if (id == R.id.nav_coffeeFinder) {
             startActivity(new Intent(Home.this, CoffeeFinder.class));
         } else if (id == R.id.nav_send) {

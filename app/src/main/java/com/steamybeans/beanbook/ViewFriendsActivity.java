@@ -30,8 +30,6 @@ public class ViewFriendsActivity extends AppCompatActivity
     private Authentication authentication;
     private TextView TVfriends;
     private LinearLayout linearLayout;
-    private DatabaseReference database;
-    private EditText ETSearchFriend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +100,7 @@ public class ViewFriendsActivity extends AppCompatActivity
         } else if (id == R.id.nav_view_friends) {
             startActivity(new Intent(ViewFriendsActivity.this, ViewFriendsActivity.class));
         } else if (id == R.id.nav_home) {
-
+            startActivity(new Intent(ViewFriendsActivity.this, Home.class));
         } else if (id == R.id.nav_coffeeFinder) {
             startActivity(new Intent(ViewFriendsActivity.this, CoffeeFinder.class));
         } else if (id == R.id.nav_send) {
@@ -112,7 +110,7 @@ public class ViewFriendsActivity extends AppCompatActivity
             startActivity(new Intent(ViewFriendsActivity.this, MainActivity.class));
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout2);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -142,7 +140,7 @@ public class ViewFriendsActivity extends AppCompatActivity
                             TVfriends.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    database.child("friends").child(snapshot.getKey()).setValue(snapshot.child("fullName").getValue());
+                                    FirebaseDatabase.getInstance().getReference().child("friends").child(snapshot.getKey()).setValue(snapshot.child("fullName").getValue());
 
 
                                 }
