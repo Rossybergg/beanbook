@@ -36,7 +36,6 @@
         <activity android:name=".ViewFriendsActivity" />
         <activity
             android:name=".ViewAndCommentOnPost"
-            android:label="@string/title_activity_view_and_comment_on_post"
             android:parentActivityName=".Home"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
