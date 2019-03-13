@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -44,7 +45,7 @@ public class CoffeeFinder extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
 
-    private double latitude,longitude;
+    private double latitude, longitude;
     private Location mLastLocation;
     private Marker mMarker;
     private LocationRequest mLocationRequest;
@@ -65,16 +66,15 @@ public class CoffeeFinder extends FragmentActivity implements OnMapReadyCallback
         mService = Common.getGoogleAPIService();
 
         //Request Runtime Permission
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
         }
-        BottomNavigationView bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
-                switch (menuItem.getItemId())
-                {
+                switch (menuItem.getItemId()) {
                     case R.id.action_all:
                         nearByPlace("coffee shop");
                         break;
@@ -95,23 +95,21 @@ public class CoffeeFinder extends FragmentActivity implements OnMapReadyCallback
 
     private void nearByPlace(String placeType) {
         mMap.clear();
-        String url = GetURL(latitude,longitude,placeType);
+        String url = GetURL(latitude, longitude, placeType);
 
         mService.getNearByPlaces(url)
                 .enqueue(new Callback<MyPlaces>() {
                     @Override
                     public void onResponse(Call<MyPlaces> call, Response<MyPlaces> response) {
-                        if(response.isSuccessful())
-                        {
-                            for(int i=0;i<response.body().getResults().length;i++)
-                            {
+                        if (response.isSuccessful()) {
+                            for (int i = 0; i < response.body().getResults().length; i++) {
                                 MarkerOptions markerOptions = new MarkerOptions();
                                 Results googlePlace = response.body().getResults()[i];
                                 double lat = Double.parseDouble(googlePlace.getGeometry().getLocation().getLat());
                                 double lng = Double.parseDouble(googlePlace.getGeometry().getLocation().getLng());
                                 String placeName = googlePlace.getName();
                                 String Vicinity = googlePlace.getVicinity();
-                                LatLng latLng = new LatLng(lat,lng);
+                                LatLng latLng = new LatLng(lat, lng);
                                 markerOptions.position(latLng);
                                 markerOptions.title(placeName);
                                 markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
@@ -130,42 +128,58 @@ public class CoffeeFinder extends FragmentActivity implements OnMapReadyCallback
 
     private String GetURL(double latitude, double longitude, String placeType) {
         StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
-        googlePlacesUrl.append("location="+latitude+","+longitude);
-        googlePlacesUrl.append("&radius="+1000);
-        googlePlacesUrl.append("&type="+placeType);
+        googlePlacesUrl.append("location=" + latitude + "," + longitude);
+        googlePlacesUrl.append("&radius=" + 10000);
+        googlePlacesUrl.append("&type=" + placeType);
         googlePlacesUrl.append("&sensor=true");
-        googlePlacesUrl.append("&key="+getResources().getString(R.string.browser_key_test));
-        Log.d("getUrl",googlePlacesUrl.toString());
+        googlePlacesUrl.append("&key=" + getResources().getString(R.string.browser_key_test));
+        Log.d("getUrl", googlePlacesUrl.toString());
         return googlePlacesUrl.toString();
 
     }
 
     private boolean checkLocationPermission() {
-        if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_FINE_LOCATION))
-                ActivityCompat.requestPermissions(this,new String[]{
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION))
+                ActivityCompat.requestPermissions(this, new String[]{
 
                         Manifest.permission.ACCESS_FINE_LOCATION
-                },MY_PERMISSION_CODE);
+                }, MY_PERMISSION_CODE);
             else
-                ActivityCompat.requestPermissions(this,new String[]{
+                ActivityCompat.requestPermissions(this, new String[]{
 
                         Manifest.permission.ACCESS_FINE_LOCATION
-                },MY_PERMISSION_CODE);
+                }, MY_PERMISSION_CODE);
             return false;
-        }
-        else
+        } else
             return true;
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSION_CODE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                        if (mGoogleApiClient == null)
+                            buildGoogleApiClient();
+                        mMap.setMyLocationEnabled(true);
+                    }
+                } else {
+                    Toast.makeText(this,"Location Permission Refused", Toast.LENGTH_SHORT).show();
+                }
+            }
+            break;
+        }
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
         //Init Google Play Services
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 buildGoogleApiClient();
                 mMap.setMyLocationEnabled(true);
             } else {
@@ -179,7 +193,7 @@ public class CoffeeFinder extends FragmentActivity implements OnMapReadyCallback
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
-                .addApi (LocationServices.API)
+                .addApi(LocationServices.API)
                 .build();
         mGoogleApiClient.connect();
     }
@@ -190,11 +204,11 @@ public class CoffeeFinder extends FragmentActivity implements OnMapReadyCallback
         mLocationRequest.setInterval(1000);
         mLocationRequest.setFastestInterval(1000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-        if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,mLocationRequest,this);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         }
 
-        }
+    }
 
     @Override
     public void onConnectionSuspended(int i) {
@@ -209,24 +223,26 @@ public class CoffeeFinder extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onLocationChanged(Location location) {
         mLastLocation = location;
-        if(mMarker != null)
+        if (mMarker != null)
             mMarker.remove();
 
         latitude = location.getLatitude();
         longitude = location.getLongitude();
 
-        LatLng latLng = new LatLng(latitude,longitude);
+        LatLng latLng = new LatLng(latitude, longitude);
         MarkerOptions markerOptions = new MarkerOptions()
                 .position(latLng)
                 .title("Your Location")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
         mMarker = mMap.addMarker(markerOptions);
 
+        mMap.addMarker(markerOptions);
+
         // Move camera
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
 
-        if(mGoogleApiClient != null)
-            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient,this);
+        if (mGoogleApiClient != null)
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
     }
 }
