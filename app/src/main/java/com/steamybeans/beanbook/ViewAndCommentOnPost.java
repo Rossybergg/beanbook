@@ -8,6 +8,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +23,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ViewAndCommentOnPost extends AppCompatActivity
 
             implements NavigationView.OnNavigationItemSelectedListener {
@@ -32,6 +37,11 @@ public class ViewAndCommentOnPost extends AppCompatActivity
     public TextView TVLikes;
     public Button BTNLike;
     private Session session;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private List<ListItem> listItems;
+    private LinearLayoutManager layoutManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -193,6 +203,21 @@ public class ViewAndCommentOnPost extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout4);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void onResume() {
+        super.onResume();
+
+        // find recycler view
+        recyclerView = (RecyclerView)findViewById(R.id.RVfeed);
+
+        // set linear layout manager
+        layoutManager = new LinearLayoutManager(Home.this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        //Creates the array that stores the posts
+        listItems = new ArrayList<>();
+
     }
 
 }
