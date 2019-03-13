@@ -49,6 +49,7 @@ public class CoffeeFinder extends FragmentActivity implements OnMapReadyCallback
     private Location mLastLocation;
     private Marker mMarker;
     private LocationRequest mLocationRequest;
+    public String placeName = "";
 
     IGoogleAPIService mService;
 
@@ -76,13 +77,16 @@ public class CoffeeFinder extends FragmentActivity implements OnMapReadyCallback
 
                 switch (menuItem.getItemId()) {
                     case R.id.action_all:
-                        nearByPlace("coffee shop");
+                        placeName = "";
+                        nearByPlace("cafe");
                         break;
                     case R.id.action_costa:
-                        nearByPlace("costa");
+                        placeName = "Costa";
+                        nearByPlace("cafe");
                         break;
                     case R.id.action_starbucks:
-                        nearByPlace("starbucks");
+                        placeName = "Starbucks";
+                        nearByPlace("cafe");
                         break;
                     default:
                         break;
@@ -113,6 +117,7 @@ public class CoffeeFinder extends FragmentActivity implements OnMapReadyCallback
                                 markerOptions.position(latLng);
                                 markerOptions.title(placeName);
                                 markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
+                                mMap.addMarker(markerOptions);
                                 mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
                                 mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
                             }
@@ -129,8 +134,9 @@ public class CoffeeFinder extends FragmentActivity implements OnMapReadyCallback
     private String GetURL(double latitude, double longitude, String placeType) {
         StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
         googlePlacesUrl.append("location=" + latitude + "," + longitude);
-        googlePlacesUrl.append("&radius=" + 10000);
+        googlePlacesUrl.append("&radius=" + 1000);
         googlePlacesUrl.append("&type=" + placeType);
+        googlePlacesUrl.append("&name="+ placeName);
         googlePlacesUrl.append("&sensor=true");
         googlePlacesUrl.append("&key=" + getResources().getString(R.string.browser_key_test));
         Log.d("getUrl", googlePlacesUrl.toString());
