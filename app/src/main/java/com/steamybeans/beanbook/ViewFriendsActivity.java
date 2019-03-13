@@ -103,8 +103,6 @@ public class ViewFriendsActivity extends AppCompatActivity
             startActivity(new Intent(ViewFriendsActivity.this, Home.class));
         } else if (id == R.id.nav_coffeeFinder) {
             startActivity(new Intent(ViewFriendsActivity.this, CoffeeFinder.class));
-        } else if (id == R.id.nav_send) {
-
         } else if (id == R.id.nav_logout) {
             session.logout();
             startActivity(new Intent(ViewFriendsActivity.this, MainActivity.class));
