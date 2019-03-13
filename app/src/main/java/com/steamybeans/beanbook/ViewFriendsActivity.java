@@ -130,10 +130,11 @@ public class ViewFriendsActivity extends AppCompatActivity
                             TVfriends = new TextView(ViewFriendsActivity.this);
                             TVfriends.setText(NameFormatter.capitalize(snapshot.getValue() + " "));
                             TVfriends.setId(i);
-                            TVfriends.setTextColor(Color.WHITE);
+                            TVfriends.setTextColor(Color.BLACK);
                             TVfriends.setTextSize(25);
-                            TVfriends.setBackgroundColor(Color.BLACK);
+                            TVfriends.setBackgroundColor(Color.WHITE);
                             TVfriends.setHeight(200);
+                            TVfriends.setBackgroundResource(R.drawable.textbox_xml);
                             linearLayout.addView(TVfriends);
                             TVfriends.setOnClickListener(new View.OnClickListener() {
                                 @Override
