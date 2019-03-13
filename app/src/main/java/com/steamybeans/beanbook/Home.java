@@ -202,7 +202,6 @@ public class Home extends AppCompatActivity
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            int i = 1;
                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
                                 int counter = 0;

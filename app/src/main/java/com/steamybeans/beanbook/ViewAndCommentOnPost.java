@@ -37,9 +37,11 @@ public class ViewAndCommentOnPost extends AppCompatActivity
     public TextView TVLikes;
     public Button BTNLike;
     private Session session;
+    private String email;
+    private String time;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
-    private List<ListItem> listItems;
+    private List<CommentListitem> listItems;
     private LinearLayoutManager layoutManager;
 
 
@@ -56,8 +58,8 @@ public class ViewAndCommentOnPost extends AppCompatActivity
         session = new Session(getApplicationContext());
 
         Intent intent = getIntent();
-        final String email = intent.getStringExtra("email");
-        final String time = intent.getStringExtra("time");
+        email = intent.getStringExtra("email");
+        time = intent.getStringExtra("time");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -209,14 +211,70 @@ public class ViewAndCommentOnPost extends AppCompatActivity
         super.onResume();
 
         // find recycler view
-        recyclerView = (RecyclerView)findViewById(R.id.RVfeed);
+        recyclerView = (RecyclerView)findViewById(R.id.RVFeed);
 
         // set linear layout manager
-        layoutManager = new LinearLayoutManager(Home.this);
+        layoutManager = new LinearLayoutManager(ViewAndCommentOnPost.this);
+        System.out.println(recyclerView);
         recyclerView.setLayoutManager(layoutManager);
 
-        //Creates the array that stores the posts
+        //Creates the array that stores the comments
         listItems = new ArrayList<>();
+
+        // getting all comments
+        FirebaseDatabase.getInstance().getReference().child("Users").child(email).child("posts").child(time)
+                .child("comments").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                            //getting the time of a particular comment
+                            final String commentTime = snapshot.getKey();
+
+                            for (DataSnapshot snapshot2 : snapshot.getChildren()) {
+
+                                //getting the comment itself
+                                final String comment = snapshot2.getValue().toString();
+
+                                //getting the email associated with the comment
+                                final String commentersEmail = snapshot2.getKey();
+
+                                //getting the name of the commenter from the email
+                                FirebaseDatabase.getInstance().getReference().child("Users").child(commentersEmail)
+                                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                final String name = dataSnapshot.child("fullName").getValue().toString();
+
+                                                CommentListitem listItem = new CommentListitem(
+                                                        name,
+                                                        commentTime,
+                                                        comment
+                                                );
+                                                listItems.add(listItem);
+                                                adapter = new CommentItemAdapter(listItems, ViewAndCommentOnPost.this);
+                                                recyclerView.setAdapter(adapter);
+
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                            }
+                                        });
+
+                            }
+
+
+                        }
+                    }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+
+        });
 
     }
 

@@ -8,6 +8,7 @@
 
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/RVFeed"
         android:layout_width="match_parent"
         android:layout_height="490dp"
         android:layout_marginStart="8dp"
