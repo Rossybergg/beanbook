@@ -112,10 +112,12 @@ public class Home extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View header = navigationView.getHeaderView(0);
         TextView TVemailaddress = header.findViewById(R.id.TVemailAddress);
+        TextView TVfullName = header.findViewById(R.id.TVfullName);
 
 
         //Set Navbar Headers text
         TVemailaddress.setText(session.getUsername());
+        TVfullName.setText(session.getFullName());
         navigationView.setNavigationItemSelectedListener(this);
 
 
@@ -161,13 +163,13 @@ public class Home extends AppCompatActivity
         if (id == R.id.nav_add_friend) {
             startActivity(new Intent(Home.this, AddFriendActivity.class));
         } else if (id == R.id.nav_view_friends) {
-
+            startActivity(new Intent(Home.this, ViewFriendsActivity.class));
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
-
+        } else if (id == R.id.nav_coffeeFinder) {
+            startActivity(new Intent(Home.this, CoffeeFinder.class));
         } else if (id == R.id.nav_send) {
 
         } else if (id == R.id.nav_logout) {

@@ -98,4 +98,6 @@
     <string name="nav_header_subtitle">Mr.Bean@beanbook.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="title_activity_view_and_comment_on_post">viewAndCommentOnPost</string>
+    <string name="title_activity_coffee_finder">Coffee Finder</string>
+
 </resources>

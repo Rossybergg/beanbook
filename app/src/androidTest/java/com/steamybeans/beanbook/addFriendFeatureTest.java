@@ -12,18 +12,16 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
-public class loginFeatureTest {
+public class addFriendFeatureTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mainActivityActivityTestRule = new ActivityTestRule<MainActivity>(MainActivity.class);
-
     @Test
-    public void clickLoginButton_toOpenHomePage() throws Exception {
+    public void clickLoginButton_toOpenShowSuccess() throws Exception {
         // goes to signup page
         onView(withId(R.id.BTNsignUp)).perform(click());
         onView(withId(R.id.ETfullName)).perform(typeText("Joe Bloggs"));
@@ -46,9 +44,9 @@ public class loginFeatureTest {
         Thread.sleep(500);
         onView(withId(R.id.BTNlogIn)).perform(click());
         Thread.sleep(2000);
-        onView(withId(R.id.BTNrefresh)).check(matches(isDisplayed()));
-        Thread.sleep(2000);
+        onView(withId(R.id.TVmessage)).check(matches(withText("Success")));
 
+        //this parts fails. who knows why
         FirebaseConnection connection = new FirebaseConnection();
         connection.deleteFromDb("joe,blogs@test,com");
 

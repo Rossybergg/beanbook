@@ -3,8 +3,6 @@ package com.steamybeans.beanbook;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -16,7 +14,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class AddFriendActivity extends AppCompatActivity {
+public class ViewFriendsActivity extends AppCompatActivity {
 
     private Session session;
     private Authentication authentication;
@@ -28,46 +26,19 @@ public class AddFriendActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_friend);
+        setContentView(R.layout.activity_view_friends);
         session = new Session(getApplicationContext());
         authentication = new Authentication();
-        linearLayout = (LinearLayout) findViewById(R.id.Layfriends);
+        linearLayout = (LinearLayout) findViewById(R.id.Layviewfriends);
     }
 
     protected void onResume() {
         super.onResume();
 
-        ETSearchFriend = (EditText)findViewById(R.id.ETSearchFriend);
-
-        ETSearchFriend.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                linearLayout.removeAllViews();
-                searchFriends(s.toString());
-            }
-        });
-
-
-
-    }
-
-    private void searchFriends(String search) {
         String unencodedUser = session.getUsername();
         final String user = authentication.encodeString(unencodedUser);
-        database = FirebaseDatabase.getInstance().getReference().child("Users").child(user);
 
-
-        FirebaseDatabase.getInstance().getReference().child("Users").orderByChild("fullName").startAt(search.toLowerCase()).endAt(search.toLowerCase() + "\uf8ff")
+        FirebaseDatabase.getInstance().getReference().child("Users").child(user).child("friends")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
 
                     @Override
@@ -75,8 +46,8 @@ public class AddFriendActivity extends AppCompatActivity {
                         int i = 1 ;
                         for (final DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
-                            TVfriends = new TextView(AddFriendActivity.this);
-                            TVfriends.setText(NameFormatter.capitalize(snapshot.child("fullName").getValue() + ""));
+                            TVfriends = new TextView(ViewFriendsActivity.this);
+                            TVfriends.setText(NameFormatter.capitalize(snapshot.getValue() + " "));
                             TVfriends.setId(i);
                             TVfriends.setTextColor(Color.WHITE);
                             TVfriends.setTextSize(25);
@@ -104,7 +75,4 @@ public class AddFriendActivity extends AppCompatActivity {
                 });
 
     }
-
-
-
 }

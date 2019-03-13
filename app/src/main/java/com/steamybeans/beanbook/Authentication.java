@@ -25,19 +25,10 @@ public class Authentication {
 
         Pattern pattern = Pattern.compile(".+@.+\\.[a-z]+");
         Matcher matcher = pattern.matcher(email);
-        boolean matchFound = matcher.matches();
-        boolean result = false;
-        if (matchFound) {
-            result = true;
-        }
-        return result;
+        return matcher.matches();
     }
 
     public boolean correctPassword(String actualPassword, String enteredPassword) {
-        boolean result = false;
-        if (actualPassword.equals(enteredPassword)) {
-            result = true;
-        }
-        return result;
+        return actualPassword.equals(enteredPassword);
     }
 }

@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     private Authentication authentication;
     private VideoView VIDloginBG;
 
-    private Button BTNautoLogin;
     private Session session;
 
     @Override
@@ -72,14 +71,6 @@ public class MainActivity extends AppCompatActivity {
         BTNlogIn = (Button) findViewById(R.id.BTNlogIn);
         BTNsignUp = (Button) findViewById(R.id.BTNsignUp);
 
-        BTNautoLogin = (Button) findViewById(R.id.BTNautoLogin);
-
-        BTNautoLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, Home.class));
-            }
-        });
 
 
         BTNlogIn.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                     //checks if the email exists
                     database.child(encodedEmail).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
-                        public void onDataChange(DataSnapshot snapshot) {
+                        public void onDataChange(final DataSnapshot snapshot) {
                             if (snapshot.exists()) {
 
                                 //check that the password is correct
@@ -123,8 +114,12 @@ public class MainActivity extends AppCompatActivity {
                                         String actualPassword = dataSnapshot.child("password").getValue().toString();
                                         //checks if password is correct
                                         if (authentication.correctPassword(actualPassword, password)) {
-                                            //set the session
+                                            //set the session parameters
                                             session.setUsername(ETemail.getText().toString());
+
+                                            // Get user's full name from database
+                                            session.setFullName(snapshot.child("fullName").getValue().toString());
+
                                             //if it is correct got to new page
                                             startActivity(new Intent(MainActivity.this, Home.class));
                                         } else {

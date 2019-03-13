@@ -138,15 +138,5 @@
         app:layout_constraintTop_toTopOf="@+id/IVvideoFade"
         app:srcCompat="@drawable/lt2" />
 
-    <Button
-        android:id="@+id/BTNautoLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="AutoLogin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
 
 </android.support.constraint.ConstraintLayout>
