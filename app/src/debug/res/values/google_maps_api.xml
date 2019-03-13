@@ -1,5 +1,5 @@
 <resources>
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAyIvAL7OF9TD_zNRBD2N_fFgNiwqkvyKQ</string>
     <string name="browser_key">GETYOUROWNKEY</string>
-    <string name="browser_key_test">test</string>
+    <string name="browser_key_test">GETYOUROWNKEY</string>
 </resources>
