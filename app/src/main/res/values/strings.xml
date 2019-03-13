@@ -97,4 +97,5 @@
     <string name="nav_header_title">Mr Bean</string>
     <string name="nav_header_subtitle">Mr.Bean@beanbook.com</string>
     <string name="nav_header_desc">Navigation header</string>
+    <string name="title_activity_view_and_comment_on_post">viewAndCommentOnPost</string>
 </resources>

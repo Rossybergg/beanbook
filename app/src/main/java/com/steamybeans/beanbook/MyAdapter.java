@@ -1,6 +1,7 @@
 package com.steamybeans.beanbook;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +17,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
+
+import static android.support.v4.content.ContextCompat.startActivity;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
@@ -72,9 +75,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                     }
                 });
 
+            }
+        });
 
+        viewHolder.BTNComments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-
+                Intent i = new Intent(context, ViewAndCommentOnPost.class);
+                i.putExtra("email", listItem.getEmail());
+                i.putExtra("time", listItem.getTime());
+                context.startActivity(i);
             }
         });
     }
@@ -103,6 +114,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         public TextView TVPost;
         public TextView TVLikes;
         public Button BTNLike;
+        public Button BTNComments;
 
 
         public ViewHolder(View itemView) {
@@ -113,6 +125,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             TVPost = (TextView) itemView.findViewById(R.id.TVPost);
             TVLikes = (TextView) itemView.findViewById(R.id.TVLikes);
             BTNLike = (Button) itemView.findViewById(R.id.BTNLike);
+            BTNComments = (Button) itemView.findViewById(R.id.BTNComments);
         }
     }
 }
