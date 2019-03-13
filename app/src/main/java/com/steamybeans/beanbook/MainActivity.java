@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     private Authentication authentication;
     private VideoView VIDloginBG;
 
-    private Button BTNautoLogin;
     private Session session;
 
     @Override
@@ -72,14 +71,6 @@ public class MainActivity extends AppCompatActivity {
         BTNlogIn = (Button) findViewById(R.id.BTNlogIn);
         BTNsignUp = (Button) findViewById(R.id.BTNsignUp);
 
-        BTNautoLogin = (Button) findViewById(R.id.BTNautoLogin);
-
-        BTNautoLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, Home.class));
-            }
-        });
 
 
         BTNlogIn.setOnClickListener(new View.OnClickListener() {

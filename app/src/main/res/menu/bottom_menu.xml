@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_all"
+        android:enabled="true"
+        android:title="All"
+        android:icon="@drawable/ic_cafe"
+        app:showAsAction="ifRoom"
+        />
+
+    <item
+        android:id="@+id/action_costa"
+        android:enabled="true"
+        android:title="Costa"
+        android:icon="@drawable/ic_costa_3"
+        app:showAsAction="ifRoom"
+        />
+
+    <item
+        android:id="@+id/action_starbucks"
+        android:enabled="true"
+        android:title="Starbucks"
+        android:icon="@drawable/ic_starbucks_coffee"
+        app:showAsAction="ifRoom"
+        />
+</menu>
