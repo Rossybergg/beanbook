@@ -35,12 +35,22 @@
             android:label="@string/title_activity_coffee_finder"></activity>
         <activity android:name=".ViewFriendsActivity" />
         <activity
+            android:name=".ViewAndCommentOnPost"
+            android:label="@string/title_activity_view_and_comment_on_post"
+            android:parentActivityName=".Home"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.steamybeans.beanbook.Home" />
+        </activity>
+        <activity
             android:name=".AddFriendActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Home"
             android:label="@string/title_activity_home"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".Signup" />
         <activity android:name=".MainActivity">
             <intent-filter>
