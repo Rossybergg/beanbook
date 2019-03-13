@@ -28,7 +28,7 @@ public class ViewAndCommentOnPost extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_view_and_comment_on_post);
+        setContentView(R.layout.activity_view_and_comment_on_post);
 
         TVUser = (TextView) findViewById(R.id.TVUser);
         TVTime = (TextView) findViewById(R.id.TVTime);
