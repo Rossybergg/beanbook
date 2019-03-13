@@ -37,7 +37,8 @@
         <activity
             android:name=".ViewAndCommentOnPost"
             android:parentActivityName=".Home"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.steamybeans.beanbook.Home" />
