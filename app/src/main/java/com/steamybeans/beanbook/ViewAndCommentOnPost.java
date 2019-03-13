@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class ViewAndCommentOnPost extends AppCompatActivity
@@ -43,6 +44,9 @@ public class ViewAndCommentOnPost extends AppCompatActivity
     private RecyclerView.Adapter adapter;
     private List<CommentListitem> listItems;
     private LinearLayoutManager layoutManager;
+    private TextView PTaddComment;
+    private Button BTNadd;
+    private Authentication authentication;
 
 
     @Override
@@ -149,7 +153,6 @@ public class ViewAndCommentOnPost extends AppCompatActivity
                     }
                 });
 
-
     }
 
     @Override
@@ -209,6 +212,9 @@ public class ViewAndCommentOnPost extends AppCompatActivity
 
     public void onResume() {
         super.onResume();
+
+        PTaddComment = (TextView) findViewById(R.id.PTaddComment);
+        BTNadd = (Button) findViewById(R.id.BTNadd);
 
         // find recycler view
         recyclerView = (RecyclerView)findViewById(R.id.RVFeed);
@@ -276,6 +282,37 @@ public class ViewAndCommentOnPost extends AppCompatActivity
 
         });
 
+        BTNadd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String postComment = PTaddComment.getText().toString();
+                final String commentName = session.getFullName();
+                authentication = new Authentication();
+
+                final DatabaseReference database;
+                database = FirebaseDatabase.getInstance().getReference().child("Users").child(email).child("posts")
+                        .child(time).child("comments").child(Calendar.getInstance().getTime().toString());
+
+                database.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (PTaddComment.getText().toString().trim().length() > 0) {
+                            database.child(authentication.encodeString(session.getUsername())).setValue(postComment);
+                            PTaddComment.setText("");
+                            recreate();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        });
+
     }
+
+
 
 }
