@@ -3,6 +3,8 @@ package com.steamybeans.beanbook;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,29 +30,25 @@ public class loginFeatureTest {
         onView(withId(R.id.BTNsignUp)).perform(click());
         onView(withId(R.id.ETfullName)).perform(typeText("Joe Bloggs"));
         onView(withId(R.id.ETfullName)).perform(closeSoftKeyboard());
-        Thread.sleep(500);
         onView(withId(R.id.ETemail)).perform(typeText("joe.blogs@test.com"));
         onView(withId(R.id.ETemail)).perform(closeSoftKeyboard());
-        Thread.sleep(500);
         onView(withId(R.id.ETpassword)).perform(typeText("password"));
         onView(withId(R.id.ETpassword)).perform(closeSoftKeyboard());
-        Thread.sleep(500);
         onView(withId(R.id.BTNsignUp)).perform(click());
-        Thread.sleep(2000);
         //adds to database and returns to login view
+        Thread.sleep(1000);
         onView(withId(R.id.ETemail)).perform(typeText("joe.blogs@test.com"));
         onView(withId(R.id.ETemail)).perform(closeSoftKeyboard());
-        Thread.sleep(500);
         onView(withId(R.id.ETpassword)).perform(typeText("password"));
         onView(withId(R.id.ETpassword)).perform(closeSoftKeyboard());
-        Thread.sleep(500);
         onView(withId(R.id.BTNlogIn)).perform(click());
-        Thread.sleep(2000);
+        Thread.sleep(1000);
         onView(withId(R.id.BTNrefresh)).check(matches(isDisplayed()));
-        Thread.sleep(2000);
+    }
 
+    @BeforeClass
+    public static void tearDown() throws Exception {
         FirebaseConnection connection = new FirebaseConnection();
         connection.deleteFromDb("joe,blogs@test,com");
-
     }
 }
