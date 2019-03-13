@@ -20,9 +20,7 @@ public class ListItem {
         return user;
     }
 
-    public String getPost() {
-        return post;
-    }
+    public String getPost() { return post; }
 
     public String getTime() { return time; }
 

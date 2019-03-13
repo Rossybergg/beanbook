@@ -8,6 +8,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +23,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ViewAndCommentOnPost extends AppCompatActivity
 
             implements NavigationView.OnNavigationItemSelectedListener {
@@ -32,6 +37,13 @@ public class ViewAndCommentOnPost extends AppCompatActivity
     public TextView TVLikes;
     public Button BTNLike;
     private Session session;
+    private String email;
+    private String time;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private List<CommentListitem> listItems;
+    private LinearLayoutManager layoutManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +58,8 @@ public class ViewAndCommentOnPost extends AppCompatActivity
         session = new Session(getApplicationContext());
 
         Intent intent = getIntent();
-        final String email = intent.getStringExtra("email");
-        final String time = intent.getStringExtra("time");
+        email = intent.getStringExtra("email");
+        time = intent.getStringExtra("time");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -193,6 +205,77 @@ public class ViewAndCommentOnPost extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout4);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void onResume() {
+        super.onResume();
+
+        // find recycler view
+        recyclerView = (RecyclerView)findViewById(R.id.RVFeed);
+
+        // set linear layout manager
+        layoutManager = new LinearLayoutManager(ViewAndCommentOnPost.this);
+        System.out.println(recyclerView);
+        recyclerView.setLayoutManager(layoutManager);
+
+        //Creates the array that stores the comments
+        listItems = new ArrayList<>();
+
+        // getting all comments
+        FirebaseDatabase.getInstance().getReference().child("Users").child(email).child("posts").child(time)
+                .child("comments").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                            //getting the time of a particular comment
+                            final String commentTime = snapshot.getKey();
+
+                            for (DataSnapshot snapshot2 : snapshot.getChildren()) {
+
+                                //getting the comment itself
+                                final String comment = snapshot2.getValue().toString();
+
+                                //getting the email associated with the comment
+                                final String commentersEmail = snapshot2.getKey();
+
+                                //getting the name of the commenter from the email
+                                FirebaseDatabase.getInstance().getReference().child("Users").child(commentersEmail)
+                                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                final String name = dataSnapshot.child("fullName").getValue().toString();
+
+                                                CommentListitem listItem = new CommentListitem(
+                                                        name,
+                                                        commentTime,
+                                                        comment
+                                                );
+                                                listItems.add(listItem);
+                                                adapter = new CommentItemAdapter(listItems, ViewAndCommentOnPost.this);
+                                                recyclerView.setAdapter(adapter);
+
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                            }
+                                        });
+
+                            }
+
+
+                        }
+                    }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+
+        });
+
     }
 
 }
