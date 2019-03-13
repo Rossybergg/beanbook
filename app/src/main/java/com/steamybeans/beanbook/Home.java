@@ -162,11 +162,9 @@ public class Home extends AppCompatActivity
             startActivity(new Intent(Home.this, AddFriendActivity.class));
         } else if (id == R.id.nav_view_friends) {
             startActivity(new Intent(Home.this, ViewFriendsActivity.class));
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_home) {
 
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_coffeeFinder) {
+        }  else if (id == R.id.nav_coffeeFinder) {
             startActivity(new Intent(Home.this, CoffeeFinder.class));
         } else if (id == R.id.nav_send) {
 
