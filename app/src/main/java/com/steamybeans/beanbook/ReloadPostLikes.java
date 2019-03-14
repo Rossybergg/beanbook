@@ -17,13 +17,13 @@ public class ReloadPostLikes {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                        final Home home = new Home();
+                        final LikesStringCreator likesStringCreator = new LikesStringCreator();
 
                         int counter = 0;
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             counter++;
                         }
-                        likesText.setText(home.likesCalculator(counter));
+                        likesText.setText(likesStringCreator.likesCalculator(counter));
 
                     }
 
