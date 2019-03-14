@@ -155,7 +155,7 @@ public class AddFriendActivity extends AppCompatActivity
 
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        int i = 1 ;
+                        int i = 200000 ;
                         for (final DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
                             TVfriends = new TextView(AddFriendActivity.this);
