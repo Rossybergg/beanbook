@@ -46,7 +46,9 @@
                     android:id="@+id/TVUser"
                     android:layout_width="256dp"
                     android:layout_height="wrap_content"
-                    android:text="User" />
+                    android:text="User"
+                    android:textColor="#8c571e"
+                    android:textSize="24sp" />
 
                 <TextView
                     android:id="@+id/TVTime"
