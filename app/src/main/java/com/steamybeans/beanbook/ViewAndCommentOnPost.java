@@ -40,7 +40,7 @@ public class ViewAndCommentOnPost extends AppCompatActivity
     private Button BTNadd;
     private Session session;
     private String email;
-    private String time;
+    private String uid;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private List<CommentListitem> listItems;
@@ -63,7 +63,7 @@ public class ViewAndCommentOnPost extends AppCompatActivity
 
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
-        time = intent.getStringExtra("time");
+        uid = intent.getStringExtra("uid");
 
         // set up app + nav bar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -98,10 +98,18 @@ public class ViewAndCommentOnPost extends AppCompatActivity
                         // load number of likes
                         final LikesStringCreator likesStringCreator = new LikesStringCreator();
                         int counter = 0;
-                        for (DataSnapshot snapshot2 : dataSnapshot.child("posts").child(time).child("likes").getChildren()) {
+                        for (DataSnapshot snapshot2 : dataSnapshot.child("posts").child(uid).child("likes").getChildren()) {
                             counter++;
                         }
                         TVLikes.setText(likesStringCreator.likesCalculator(counter));
+
+                        final int counter2 = counter;
+
+                        TVUser.setText(dataSnapshot.child("fullName").getValue().toString());
+                        TVTime.setText(uid);
+                        TVPost.setText(dataSnapshot.child("posts").child(uid).child("content").getValue().toString());
+
+                        TVLikes.setText(home.likesCalculator(counter));
 
                         // set up liking button
                         BTNLike.setOnClickListener(new View.OnClickListener() {
@@ -109,7 +117,7 @@ public class ViewAndCommentOnPost extends AppCompatActivity
                             public void onClick(View v) {
 
                                 final DatabaseReference database;
-                                database = FirebaseDatabase.getInstance().getReference().child("Users").child(email).child("posts").child(time).child("likes");
+                                database = FirebaseDatabase.getInstance().getReference().child("Users").child(email).child("posts").child(uid).child("likes");
 
                                 // getting the user session
                                 Session session;
@@ -222,7 +230,7 @@ public class ViewAndCommentOnPost extends AppCompatActivity
         listItems = new ArrayList<>();
 
         // getting all comments
-        FirebaseDatabase.getInstance().getReference().child("Users").child(email).child("posts").child(time)
+        FirebaseDatabase.getInstance().getReference().child("Users").child(email).child("posts").child(uid)
                 .child("comments").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -284,7 +292,7 @@ public class ViewAndCommentOnPost extends AppCompatActivity
 
                 final DatabaseReference database;
                 database = FirebaseDatabase.getInstance().getReference().child("Users").child(email).child("posts")
-                        .child(time).child("comments").child(Calendar.getInstance().getTime().toString());
+                        .child(uid).child("comments").child(Calendar.getInstance().getTime().toString());
 
                 database.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override

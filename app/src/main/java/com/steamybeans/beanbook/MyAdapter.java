@@ -44,7 +44,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         final TextView likesField = viewHolder.TVLikes;
 
         viewHolder.TVUser.setText(listItem.getUser());
-        viewHolder.TVTime.setText(listItem.getTime());
+        viewHolder.TVTime.setText(listItem.getDisplayTimeSincePost());
         viewHolder.TVPost.setText(listItem.getPost());
         viewHolder.TVLikes.setText(listItem.getLikes());
 
@@ -87,7 +87,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
                 Intent i = new Intent(context, ViewAndCommentOnPost.class);
                 i.putExtra("email", listItem.getEmail());
-                i.putExtra("time", listItem.getTime());
+                i.putExtra("uid", listItem.getUid());
                 context.startActivity(i);
             }
         });
