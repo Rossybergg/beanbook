@@ -29,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Home extends AppCompatActivity
@@ -68,16 +69,17 @@ public class Home extends AppCompatActivity
             @Override
             public void onClick(View view) {
 
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                LocalDateTime now = LocalDateTime.now();
+                final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
+                final LocalDateTime now = LocalDateTime.now();
                 final DatabaseReference database;
                 database = FirebaseDatabase.getInstance().getReference().child("Users").child(user)
-                        .child("posts").child(now.format(formatter));
+                        .child("posts").push();
 
                 database.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
                         if (ETaddPost.getText().toString().trim().length() > 0) {
+                            database.child("date").setValue(formatter.format(now));
                             database.child("content").setValue(ETaddPost.getText().toString());
                             ETaddPost.setText("");
                             recreate();
@@ -217,14 +219,12 @@ public class Home extends AppCompatActivity
                                 ListItem listItem = new ListItem(
                                         name,
                                         snapshot.child("content").getValue().toString(),
-                                        snapshot.getKey(),
+                                        snapshot.child("date").getValue().toString(),
                                         likesCalculator(counter),
-                                        email
+                                        email,
+                                        snapshot.getKey()
                                 );
                                 listItems.add(listItem);
-//                                adapter = new MyAdapter(listItems, Home.this);
-//                                recyclerView.setAdapter(adapter);
-
                             }
                         }
 
@@ -254,15 +254,16 @@ public class Home extends AppCompatActivity
                             ListItem listItem = new ListItem(
                                     session.getFullName(),
                                     snapshot.child("content").getValue().toString(),
-                                    snapshot.getKey(),
+                                    snapshot.child("date").getValue().toString(),
                                     likesCalculator(counter),
-                                    user
+                                    user,
+                                    snapshot.getKey()
                             );
 
                             listItems.add(listItem);
+
                             adapter = new MyAdapter(listItems, Home.this);
                             recyclerView.setAdapter(adapter);
-
                         }
                     }
 
@@ -271,7 +272,6 @@ public class Home extends AppCompatActivity
 
                     }
                 });
-
     }
 
     public String likesCalculator(int numLikes) {
