@@ -286,7 +286,6 @@ public class ViewAndCommentOnPost extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 final String postComment = PTaddComment.getText().toString();
-                final String commentName = session.getFullName();
                 authentication = new Authentication();
 
                 final DatabaseReference database;
