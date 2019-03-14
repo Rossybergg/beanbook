@@ -91,18 +91,19 @@ public class ViewAndCommentOnPost extends AppCompatActivity
                     @Override
                     public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
 
+                        TVUser.setText(dataSnapshot.child("fullName").getValue().toString());
+                        TVTime.setText(time);
+                        TVPost.setText(dataSnapshot.child("posts").child(time).child("content").getValue().toString());
+
+                        // load number of likes
                         final LikesStringCreator likesStringCreator = new LikesStringCreator();
                         int counter = 0;
                         for (DataSnapshot snapshot2 : dataSnapshot.child("posts").child(time).child("likes").getChildren()) {
                             counter++;
                         }
-
-                        TVUser.setText(dataSnapshot.child("fullName").getValue().toString());
-                        TVTime.setText(time);
-                        TVPost.setText(dataSnapshot.child("posts").child(time).child("content").getValue().toString());
-
                         TVLikes.setText(likesStringCreator.likesCalculator(counter));
 
+                        // set up liking button
                         BTNLike.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -119,7 +120,7 @@ public class ViewAndCommentOnPost extends AppCompatActivity
                                 final String user = authentication.encodeString(unencodedUser);
 
 
-                                // adds like to database
+                                // add like to database and reload likes field
                                 database.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
