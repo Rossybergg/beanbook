@@ -212,13 +212,13 @@ public class Home extends AppCompatActivity
                                 ListItem listItem = new ListItem(
                                         name,
                                         snapshot.child("content").getValue().toString(),
-                                        snapshot.getKey().toString(),
+                                        snapshot.getKey(),
                                         likesCalculator(counter),
                                         email
                                 );
                                 listItems.add(listItem);
-                                adapter = new MyAdapter(listItems, Home.this);
-                                recyclerView.setAdapter(adapter);
+//                                adapter = new MyAdapter(listItems, Home.this);
+//                                recyclerView.setAdapter(adapter);
 
                             }
                         }
@@ -232,6 +232,38 @@ public class Home extends AppCompatActivity
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+
+        FirebaseDatabase.getInstance().getReference().child("Users").child(user).child("posts")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                            int counter = 0;
+                            for (DataSnapshot snapshot2 : snapshot.child("likes").getChildren()) {
+                                counter++;
+                            }
+
+                            ListItem listItem = new ListItem(
+                                    session.getFullName(),
+                                    snapshot.child("content").getValue().toString(),
+                                    snapshot.getKey(),
+                                    likesCalculator(counter),
+                                    user
+                            );
+
+                            listItems.add(listItem);
+                            adapter = new MyAdapter(listItems, Home.this);
+                            recyclerView.setAdapter(adapter);
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
                     }
                 });
 
