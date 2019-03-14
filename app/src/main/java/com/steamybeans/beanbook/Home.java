@@ -26,6 +26,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,8 +68,11 @@ public class Home extends AppCompatActivity
             @Override
             public void onClick(View view) {
 
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                LocalDateTime now = LocalDateTime.now();
                 final DatabaseReference database;
-                database = FirebaseDatabase.getInstance().getReference().child("Users").child(user).child("posts").child(Calendar.getInstance().getTime().toString());
+                database = FirebaseDatabase.getInstance().getReference().child("Users").child(user)
+                        .child("posts").child(now.format(formatter));
 
                 database.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
