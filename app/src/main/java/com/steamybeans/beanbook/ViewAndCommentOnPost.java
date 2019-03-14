@@ -47,6 +47,7 @@ public class ViewAndCommentOnPost extends AppCompatActivity
     private LinearLayoutManager layoutManager;
     private TextView PTaddComment;
     private Authentication authentication;
+    private LikesStringCreator likesCalculator;
 
 
     @Override
@@ -60,6 +61,7 @@ public class ViewAndCommentOnPost extends AppCompatActivity
         TVLikes = (TextView) findViewById(R.id.TVLikes);
         BTNLike = (Button) findViewById(R.id.BTNLike);
         session = new Session(getApplicationContext());
+        likesCalculator = new LikesStringCreator();
 
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
@@ -92,8 +94,8 @@ public class ViewAndCommentOnPost extends AppCompatActivity
                     public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
 
                         TVUser.setText(dataSnapshot.child("fullName").getValue().toString());
-                        TVTime.setText(time);
-                        TVPost.setText(dataSnapshot.child("posts").child(time).child("content").getValue().toString());
+                        TVTime.setText(uid);
+                        TVPost.setText(dataSnapshot.child("posts").child(uid).child("content").getValue().toString());
 
                         // load number of likes
                         final LikesStringCreator likesStringCreator = new LikesStringCreator();
@@ -109,7 +111,7 @@ public class ViewAndCommentOnPost extends AppCompatActivity
                         TVTime.setText(uid);
                         TVPost.setText(dataSnapshot.child("posts").child(uid).child("content").getValue().toString());
 
-                        TVLikes.setText(home.likesCalculator(counter));
+                        TVLikes.setText(likesCalculator.likesCalculator(counter));
 
                         // set up liking button
                         BTNLike.setOnClickListener(new View.OnClickListener() {
@@ -134,7 +136,7 @@ public class ViewAndCommentOnPost extends AppCompatActivity
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                         database.child(user).setValue("1");
                                         ReloadPostLikes reloadPostLikes = new ReloadPostLikes();
-                                        reloadPostLikes.reloadLikes(email, time, TVLikes);
+                                        reloadPostLikes.reloadLikes(email, uid, TVLikes);
 
                                     }
 

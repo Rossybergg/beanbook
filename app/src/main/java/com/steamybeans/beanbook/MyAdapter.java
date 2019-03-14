@@ -53,7 +53,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             public void onClick(View v) {
                 // get instance of database
                 final DatabaseReference database;
-                database = FirebaseDatabase.getInstance().getReference().child("Users").child(listItem.getEmail()).child("posts").child(listItem.getTime()).child("likes");
+                database = FirebaseDatabase.getInstance().getReference().child("Users").child(listItem.getEmail()).child("posts").child(listItem.getUid()).child("likes");
 
                 // get current user session
                 Session session;

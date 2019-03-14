@@ -45,6 +45,7 @@ public class Home extends AppCompatActivity
     private RecyclerView.Adapter adapter;
     private List<ListItem> listItems;
     private LinearLayoutManager layoutManager;
+    private LikesStringCreator likesCalculator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,6 +184,8 @@ public class Home extends AppCompatActivity
         String unencodedUser = session.getUsername();
         final String user = authentication.encodeString(unencodedUser);
 
+        likesCalculator = new LikesStringCreator();
+
         // find recycler view
         recyclerView = (RecyclerView)findViewById(R.id.RVfeed);
 
@@ -222,7 +225,7 @@ public class Home extends AppCompatActivity
                                         name,
                                         snapshot.child("content").getValue().toString(),
                                         snapshot.child("date").getValue().toString(),
-                                        likesCalculator(counter),
+                                        likesCalculator.likesCalculator(counter),
                                         email,
                                         snapshot.getKey()
 
@@ -258,7 +261,7 @@ public class Home extends AppCompatActivity
                                     session.getFullName(),
                                     snapshot.child("content").getValue().toString(),
                                     snapshot.child("date").getValue().toString(),
-                                    likesCalculator(counter),
+                                    likesCalculator.likesCalculator(counter),
                                     user,
                                     snapshot.getKey()
                             );
