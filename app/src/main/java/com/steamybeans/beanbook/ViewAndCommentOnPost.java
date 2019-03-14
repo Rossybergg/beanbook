@@ -37,6 +37,7 @@ public class ViewAndCommentOnPost extends AppCompatActivity
     public TextView TVPost;
     public TextView TVLikes;
     public Button BTNLike;
+    private Button BTNadd;
     private Session session;
     private String email;
     private String time;
@@ -45,7 +46,6 @@ public class ViewAndCommentOnPost extends AppCompatActivity
     private List<CommentListitem> listItems;
     private LinearLayoutManager layoutManager;
     private TextView PTaddComment;
-    private Button BTNadd;
     private Authentication authentication;
 
 
@@ -65,6 +65,7 @@ public class ViewAndCommentOnPost extends AppCompatActivity
         email = intent.getStringExtra("email");
         time = intent.getStringExtra("time");
 
+        // set up app + nav bar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -79,33 +80,30 @@ public class ViewAndCommentOnPost extends AppCompatActivity
         TextView TVemailaddress = header.findViewById(R.id.TVemailAddress);
         TextView TVfullName = header.findViewById(R.id.TVfullName);
 
-        //Set Navbar Headers text
+        // set nav bar header text
         TVemailaddress.setText(session.getUsername());
         TVfullName.setText(session.getFullName());
         navigationView.setNavigationItemSelectedListener(this);
 
-
-
+        // load post
         FirebaseDatabase.getInstance().getReference().child("Users").child(email)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
 
-                        final Home home = new Home();
-
-                        int counter = 0;
-                        for (DataSnapshot snapshot2 : dataSnapshot.child("posts").child(time).child("likes").getChildren()) {
-                            counter++;
-                        }
-
-                        final int counter2 = counter;
-
                         TVUser.setText(dataSnapshot.child("fullName").getValue().toString());
                         TVTime.setText(time);
                         TVPost.setText(dataSnapshot.child("posts").child(time).child("content").getValue().toString());
 
-                        TVLikes.setText(home.likesCalculator(counter));
+                        // load number of likes
+                        final LikesStringCreator likesStringCreator = new LikesStringCreator();
+                        int counter = 0;
+                        for (DataSnapshot snapshot2 : dataSnapshot.child("posts").child(time).child("likes").getChildren()) {
+                            counter++;
+                        }
+                        TVLikes.setText(likesStringCreator.likesCalculator(counter));
 
+                        // set up liking button
                         BTNLike.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -122,15 +120,13 @@ public class ViewAndCommentOnPost extends AppCompatActivity
                                 final String user = authentication.encodeString(unencodedUser);
 
 
-                                // adds like to database
+                                // add like to database and reload likes field
                                 database.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                         database.child(user).setValue("1");
-
-                                        // this is a really stupid way of doing this but we cant think of another way
-                                        final int counter3 = counter2 + 1;
-                                        TVLikes.setText(home.likesCalculator(counter3));
+                                        ReloadPostLikes reloadPostLikes = new ReloadPostLikes();
+                                        reloadPostLikes.reloadLikes(email, time, TVLikes);
 
                                     }
 
@@ -142,8 +138,6 @@ public class ViewAndCommentOnPost extends AppCompatActivity
 
                             }
                         });
-
-
 
                     }
 

@@ -41,6 +41,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
     final ListItem listItem = listItems.get(i);
 
+        final TextView likesField = viewHolder.TVLikes;
+
         viewHolder.TVUser.setText(listItem.getUser());
         viewHolder.TVTime.setText(listItem.getTime());
         viewHolder.TVPost.setText(listItem.getPost());
@@ -61,12 +63,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                 String unencodedUser = session.getUsername();
                 final String user = authentication.encodeString(unencodedUser);
 
-
-                // adds like to database
+                // adds like to database and reloads likes field
                 database.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         database.child(user).setValue("1");
+                        ReloadPostLikes reloadPostLikes = new ReloadPostLikes();
+                        reloadPostLikes.reloadLikes(listItem.getEmail(), listItem.getTime(), likesField);
                     }
 
                     @Override
@@ -106,6 +109,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         }
         return arr;
     }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
