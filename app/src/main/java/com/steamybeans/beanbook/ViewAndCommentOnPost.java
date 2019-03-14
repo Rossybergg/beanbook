@@ -250,7 +250,7 @@ public class ViewAndCommentOnPost extends AppCompatActivity
                                         .addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                final String name = dataSnapshot.child("fullName").getValue().toString();
+                                                final String name = NameFormatter.capitalize(dataSnapshot.child("fullName").getValue().toString());
 
                                                 CommentListitem listItem = new CommentListitem(
                                                         name,
