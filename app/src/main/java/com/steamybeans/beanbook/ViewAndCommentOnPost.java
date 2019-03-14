@@ -127,10 +127,8 @@ public class ViewAndCommentOnPost extends AppCompatActivity
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                         database.child(user).setValue("1");
-
-                                        // this is a really stupid way of doing this but we cant think of another way
-                                        final int counter3 = counter2 + 1;
-                                        TVLikes.setText(home.likesCalculator(counter3));
+                                        ReloadPostLikes reloadPostLikes = new ReloadPostLikes();
+                                        reloadPostLikes.reloadLikes(email, time, TVLikes);
 
                                     }
 
@@ -142,8 +140,6 @@ public class ViewAndCommentOnPost extends AppCompatActivity
 
                             }
                         });
-
-
 
                     }
 
