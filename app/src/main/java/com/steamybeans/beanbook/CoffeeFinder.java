@@ -97,7 +97,7 @@ public class CoffeeFinder extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
-    private void nearByPlace(String placeType) {
+    private void nearByPlace(final String placeType) {
         mMap.clear();
         String url = GetURL(latitude, longitude, placeType);
 
@@ -116,7 +116,7 @@ public class CoffeeFinder extends FragmentActivity implements OnMapReadyCallback
                                 LatLng latLng = new LatLng(lat, lng);
                                 markerOptions.position(latLng);
                                 markerOptions.title(placeName);
-                                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
+                                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
                                 mMap.addMarker(markerOptions);
                                 mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
                                 mMap.animateCamera(CameraUpdateFactory.zoomTo(11));

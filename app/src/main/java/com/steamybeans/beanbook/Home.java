@@ -216,6 +216,8 @@ public class Home extends AppCompatActivity
                                     counter++;
                                 }
 
+                                LikesStringCreator likesStringCreator = new LikesStringCreator();
+
                                 ListItem listItem = new ListItem(
                                         name,
                                         snapshot.child("content").getValue().toString(),
@@ -223,6 +225,7 @@ public class Home extends AppCompatActivity
                                         likesCalculator(counter),
                                         email,
                                         snapshot.getKey()
+
                                 );
                                 listItems.add(listItem);
                             }
@@ -272,16 +275,5 @@ public class Home extends AppCompatActivity
 
                     }
                 });
-    }
-
-    public String likesCalculator(int numLikes) {
-        if (numLikes == 0) {
-            return "";
-        } else if (numLikes == 1) {
-            return "1 like";
-        } else {
-            String numValue = String.valueOf(numLikes);
-            return numValue + " likes";
-        }
     }
 }

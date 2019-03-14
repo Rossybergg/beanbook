@@ -8,16 +8,18 @@
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="66dp">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:titleTextAppearance="@style/TitleBarTextAppearance"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:layout_height="62dp"
+            android:background="@drawable/bg1"
+            android:elevation="24dp"
+            android:minHeight="200dp"
+            android:visibility="visible"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:titleTextAppearance="@style/TitleBarTextAppearance" />
 
     </android.support.design.widget.AppBarLayout>
 
