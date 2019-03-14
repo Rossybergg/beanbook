@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -161,10 +162,11 @@ public class AddFriendActivity extends AppCompatActivity
                             TVfriends = new TextView(AddFriendActivity.this);
                             TVfriends.setText(NameFormatter.capitalize(snapshot.child("fullName").getValue() + ""));
                             TVfriends.setId(i);
-                            TVfriends.setTextColor(Color.WHITE);
-                            TVfriends.setTextSize(25);
-                            TVfriends.setBackgroundColor(Color.BLACK);
-                            TVfriends.setHeight(200);
+                            TVfriends.setTextColor(Color.GRAY);
+                            TVfriends.setTextSize(20);
+                            TVfriends.setBackground(getDrawable(R.drawable.text_bubble));
+                            TVfriends.setHeight(150);
+                            TVfriends.setGravity(Gravity.CENTER_VERTICAL);
                             linearLayout.addView(TVfriends);
                             TVfriends.setOnClickListener(new View.OnClickListener() {
                                 @Override
