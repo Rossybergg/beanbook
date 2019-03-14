@@ -93,10 +93,6 @@ public class ViewAndCommentOnPost extends AppCompatActivity
                     @Override
                     public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
 
-                        TVUser.setText(dataSnapshot.child("fullName").getValue().toString());
-                        TVTime.setText(uid);
-                        TVPost.setText(dataSnapshot.child("posts").child(uid).child("content").getValue().toString());
-
                         // load number of likes
                         final LikesStringCreator likesStringCreator = new LikesStringCreator();
                         int counter = 0;
@@ -107,7 +103,7 @@ public class ViewAndCommentOnPost extends AppCompatActivity
 
                         final int counter2 = counter;
 
-                        TVUser.setText(dataSnapshot.child("fullName").getValue().toString());
+                        TVUser.setText(NameFormatter.capitalize(dataSnapshot.child("fullName").getValue().toString()));
                         TVTime.setText(uid);
                         TVPost.setText(dataSnapshot.child("posts").child(uid).child("content").getValue().toString());
 
