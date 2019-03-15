@@ -23,8 +23,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class ViewAndCommentOnPost extends AppCompatActivity
@@ -93,22 +94,17 @@ public class ViewAndCommentOnPost extends AppCompatActivity
                     @Override
                     public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
 
-                        TVUser.setText(dataSnapshot.child("fullName").getValue().toString());
-                        TVTime.setText(uid);
-                        TVPost.setText(dataSnapshot.child("posts").child(uid).child("content").getValue().toString());
-
                         // load number of likes
                         final LikesStringCreator likesStringCreator = new LikesStringCreator();
                         int counter = 0;
                         for (DataSnapshot snapshot2 : dataSnapshot.child("posts").child(uid).child("likes").getChildren()) {
                             counter++;
                         }
-                        TVLikes.setText(likesStringCreator.likesCalculator(counter));
 
                         final int counter2 = counter;
 
-                        TVUser.setText(dataSnapshot.child("fullName").getValue().toString());
-                        TVTime.setText(uid);
+                        TVUser.setText(NameFormatter.capitalize(dataSnapshot.child("fullName").getValue().toString()));
+                        TVTime.setText(dataSnapshot.child("posts").child(uid).child("date").getValue().toString());
                         TVPost.setText(dataSnapshot.child("posts").child(uid).child("content").getValue().toString());
 
                         TVLikes.setText(likesCalculator.likesCalculator(counter));
@@ -239,40 +235,39 @@ public class ViewAndCommentOnPost extends AppCompatActivity
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
                             //getting the time of a particular comment
-                            final String commentTime = snapshot.getKey();
+                            final String commentTime = snapshot.child("date").getValue().toString();
 
-                            for (DataSnapshot snapshot2 : snapshot.getChildren()) {
+                            //getting the comment itself
+                            final String comment = snapshot.child("content").getValue().toString();
 
-                                //getting the comment itself
-                                final String comment = snapshot2.getValue().toString();
+                            //getting the email associated with the comment
+                            final String commentersEmail = snapshot.child("email").getValue().toString();
 
-                                //getting the email associated with the comment
-                                final String commentersEmail = snapshot2.getKey();
 
-                                //getting the name of the commenter from the email
-                                FirebaseDatabase.getInstance().getReference().child("Users").child(commentersEmail)
-                                        .addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                final String name = dataSnapshot.child("fullName").getValue().toString();
+                            //getting the name of the commenter from the email
+                            FirebaseDatabase.getInstance().getReference().child("Users").child(commentersEmail)
+                                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            final String name = NameFormatter.capitalize(dataSnapshot.child("fullName").getValue().toString());
 
-                                                CommentListitem listItem = new CommentListitem(
-                                                        name,
-                                                        commentTime,
-                                                        comment
-                                                );
-                                                listItems.add(listItem);
-                                                adapter = new CommentItemAdapter(listItems, ViewAndCommentOnPost.this);
-                                                recyclerView.setAdapter(adapter);
+                                            CommentListitem listItem = new CommentListitem(
+                                                    name,
+                                                    commentTime,
+                                                    comment
+                                            );
+                                            listItems.add(listItem);
+                                            System.out.println(listItems);
+                                            adapter = new CommentItemAdapter(listItems, ViewAndCommentOnPost.this);
+                                            recyclerView.setAdapter(adapter);
 
-                                            }
+                                        }
 
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError databaseError) {
-                                            }
-                                        });
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        }
+                                    });
 
-                            }
 
 
                         }
@@ -292,15 +287,19 @@ public class ViewAndCommentOnPost extends AppCompatActivity
                 final String postComment = PTaddComment.getText().toString();
                 authentication = new Authentication();
 
+                final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
+                final LocalDateTime now = LocalDateTime.now();
                 final DatabaseReference database;
                 database = FirebaseDatabase.getInstance().getReference().child("Users").child(email).child("posts")
-                        .child(uid).child("comments").child(Calendar.getInstance().getTime().toString());
+                        .child(uid).child("comments").push();
 
                 database.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (PTaddComment.getText().toString().trim().length() > 0) {
-                            database.child(authentication.encodeString(session.getUsername())).setValue(postComment);
+                            database.child("date").setValue(formatter.format(now));
+                            database.child("content").setValue(postComment);
+                            database.child("email").setValue(authentication.encodeString(session.getUsername()));
                             PTaddComment.setText("");
                             recreate();
                         }

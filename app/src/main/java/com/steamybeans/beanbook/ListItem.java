@@ -70,11 +70,23 @@ public class ListItem {
             if (secondsNumber < 60) {
                 timeMessage = secondsNumber + " seconds ago";
             } else if (secondsNumber < 3600) {
-                timeMessage = secondsNumber / 60 + " minutes ago";
+                if (secondsNumber < 120) {
+                    timeMessage = "1 minute ago";
+                } else {
+                    timeMessage = secondsNumber / 60 + " minutes ago";
+                }
             } else if (secondsNumber < 86400) {
-                timeMessage = secondsNumber / 3600 + " hours ago";
+                if (secondsNumber < 7200 ) {
+                    timeMessage = "1 hour ago";
+                } else {
+                    timeMessage = secondsNumber / 3600 + " hours ago";
+                }
             } else if (secondsNumber > 86400 ) {
-                timeMessage = secondsNumber /86400 + " days ago";
+                if (secondsNumber < 172800) {
+                    timeMessage = "1 day ago";
+                } else {
+                    timeMessage = secondsNumber /86400 + " days ago";
+                }
             }
 
 

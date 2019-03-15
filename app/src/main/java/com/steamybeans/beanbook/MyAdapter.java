@@ -18,8 +18,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
-import static android.support.v4.content.ContextCompat.startActivity;
-
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     private List<ListItem> listItems;
@@ -69,7 +67,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         database.child(user).setValue("1");
                         ReloadPostLikes reloadPostLikes = new ReloadPostLikes();
-                        reloadPostLikes.reloadLikes(listItem.getEmail(), listItem.getTime(), likesField);
+                        reloadPostLikes.reloadLikes(listItem.getEmail(), listItem.getUid(), likesField);
                     }
 
                     @Override

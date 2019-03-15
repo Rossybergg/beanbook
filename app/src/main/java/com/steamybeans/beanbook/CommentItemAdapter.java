@@ -32,7 +32,7 @@ public class CommentItemAdapter extends RecyclerView.Adapter<CommentItemAdapter.
         CommentListitem listItem = listItems.get(i);
 
         viewHolder.TVUser.setText(listItem.getUser());
-        viewHolder.TVTime.setText(listItem.getTime());
+        viewHolder.TVTime.setText(listItem.getDisplayTimeSinceComment());
         viewHolder.TVComment.setText(listItem.getComment());
     }
 

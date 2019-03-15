@@ -204,7 +204,7 @@ public class Home extends AppCompatActivity
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             String friend = snapshot.getKey();
-                            final String name = snapshot.getValue().toString();
+                            final String name = NameFormatter.capitalize(snapshot.getValue().toString());
                             final String email = snapshot.getKey();
 
                             //getting all posts of particular friend
@@ -231,6 +231,10 @@ public class Home extends AppCompatActivity
 
                                 );
                                 listItems.add(listItem);
+
+                                adapter = new MyAdapter(listItems, Home.this);
+                                recyclerView.setAdapter(adapter);
+
                             }
                         }
 
