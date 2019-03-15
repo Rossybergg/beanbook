@@ -2,12 +2,22 @@ package com.steamybeans.beanbook;
 
 import android.content.Context;
 import android.content.Intent;
+
+import android.net.Uri;
+
+import android.media.Image;
+
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import android.widget.ImageView;
+
+import android.widget.ImageButton;
+
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -16,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.File;
 import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
@@ -39,16 +50,24 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
     final ListItem listItem = listItems.get(i);
 
+//        Uri imageFilePath =  Uri.fromFile(new File("../../res/drawable/jedd.png"));
+
+
         final TextView likesField = viewHolder.TVLikes;
 
         viewHolder.TVUser.setText(listItem.getUser());
         viewHolder.TVTime.setText(listItem.getDisplayTimeSincePost());
         viewHolder.TVPost.setText(listItem.getPost());
         viewHolder.TVLikes.setText(listItem.getLikes());
+        if (listItem.getUser().equals("Jeddarino")) { viewHolder.IVprofilePic.setImageResource(R.drawable.jedd); }
+        if (listItem.getUser().equals("Ross Hunter")) { viewHolder.IVprofilePic.setImageResource(R.drawable.ross); }
+        if (listItem.getEmail().equals("sebastianlavender@gmail,com")) { viewHolder.IVprofilePic.setImageResource(R.drawable.seb); }
+
 
         viewHolder.BTNLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 // get instance of database
                 final DatabaseReference database;
                 database = FirebaseDatabase.getInstance().getReference().child("Users").child(listItem.getEmail()).child("posts").child(listItem.getUid()).child("likes");
@@ -72,7 +91,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-
                     }
                 });
 
@@ -116,8 +134,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         public TextView TVTime;
         public TextView TVPost;
         public TextView TVLikes;
-        public Button BTNLike;
-        public Button BTNComments;
+
+        public ImageView IVprofilePic;
+
+        public ImageButton BTNLike;
+        public ImageButton BTNComments;
+
 
 
         public ViewHolder(View itemView) {
@@ -127,8 +149,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             TVTime = (TextView) itemView.findViewById(R.id.TVTime);
             TVPost = (TextView) itemView.findViewById(R.id.TVPost);
             TVLikes = (TextView) itemView.findViewById(R.id.TVLikes);
-            BTNLike = (Button) itemView.findViewById(R.id.BTNLike);
-            BTNComments = (Button) itemView.findViewById(R.id.BTNComments);
+
+            IVprofilePic = (ImageView) itemView.findViewById(R.id.imageView5);
+
+            BTNLike = (ImageButton) itemView.findViewById(R.id.BTNLike);
+            BTNComments = (ImageButton) itemView.findViewById(R.id.BTNComments);
+
         }
     }
 }
