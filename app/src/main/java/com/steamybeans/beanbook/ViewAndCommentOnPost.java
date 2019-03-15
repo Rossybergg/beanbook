@@ -42,6 +42,7 @@ public class ViewAndCommentOnPost extends AppCompatActivity
     private Session session;
     private String email;
     private String uid;
+    private String displayTime;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private List<CommentListitem> listItems;
@@ -67,6 +68,8 @@ public class ViewAndCommentOnPost extends AppCompatActivity
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
         uid = intent.getStringExtra("uid");
+        displayTime = intent.getStringExtra("displayTime");
+
 
         // set up app + nav bar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -104,7 +107,7 @@ public class ViewAndCommentOnPost extends AppCompatActivity
                         final int counter2 = counter;
 
                         TVUser.setText(NameFormatter.capitalize(dataSnapshot.child("fullName").getValue().toString()));
-                        TVTime.setText(dataSnapshot.child("posts").child(uid).child("date").getValue().toString());
+                        TVTime.setText(displayTime);
                         TVPost.setText(dataSnapshot.child("posts").child(uid).child("content").getValue().toString());
 
                         TVLikes.setText(likesCalculator.likesCalculator(counter));
