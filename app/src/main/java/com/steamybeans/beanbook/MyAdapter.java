@@ -86,6 +86,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                 Intent i = new Intent(context, ViewAndCommentOnPost.class);
                 i.putExtra("email", listItem.getEmail());
                 i.putExtra("uid", listItem.getUid());
+                i.putExtra("displayTime", listItem.getDisplayTimeSincePost());
                 context.startActivity(i);
             }
         });
