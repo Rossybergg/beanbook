@@ -2,12 +2,14 @@ package com.steamybeans.beanbook;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -49,6 +51,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         viewHolder.BTNLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 // get instance of database
                 final DatabaseReference database;
                 database = FirebaseDatabase.getInstance().getReference().child("Users").child(listItem.getEmail()).child("posts").child(listItem.getUid()).child("likes");
@@ -116,8 +119,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         public TextView TVTime;
         public TextView TVPost;
         public TextView TVLikes;
-        public Button BTNLike;
-        public Button BTNComments;
+        public ImageButton BTNLike;
+        public ImageButton BTNComments;
 
 
         public ViewHolder(View itemView) {
@@ -127,8 +130,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             TVTime = (TextView) itemView.findViewById(R.id.TVTime);
             TVPost = (TextView) itemView.findViewById(R.id.TVPost);
             TVLikes = (TextView) itemView.findViewById(R.id.TVLikes);
-            BTNLike = (Button) itemView.findViewById(R.id.BTNLike);
-            BTNComments = (Button) itemView.findViewById(R.id.BTNComments);
+            BTNLike = (ImageButton) itemView.findViewById(R.id.BTNLike);
+            BTNComments = (ImageButton) itemView.findViewById(R.id.BTNComments);
         }
     }
 }
