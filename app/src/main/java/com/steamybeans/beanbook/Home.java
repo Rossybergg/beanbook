@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -29,7 +30,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Home extends AppCompatActivity
@@ -38,7 +38,7 @@ public class Home extends AppCompatActivity
 
 
     private EditText ETaddPost;
-    private Button BTNrefresh;
+    private ImageButton BTNrefresh;
     private Session session;
     private Authentication authentication;
     private RecyclerView recyclerView;
@@ -62,7 +62,7 @@ public class Home extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         ETaddPost = (EditText) findViewById(R.id.ETaddPost);
-        BTNrefresh = (Button) findViewById(R.id.BTNrefresh);
+        BTNrefresh = (ImageButton) findViewById(R.id.BTNrefresh);
 
 
         FloatingActionButton BTNaddPost = (FloatingActionButton) findViewById(R.id.BTNaddPost);
